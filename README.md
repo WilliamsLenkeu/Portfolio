@@ -1,76 +1,54 @@
 <h2 align="center">
-  Portfolio Website - v2.0<br/>
-  <a href="https://soumyajit.vercel.app/" target="_blank">soumyajit.tech</a>
+  Portfolio – Williams Lenkeu<br/>
 </h2>
 <div align="center">
-  <img alt="Demo" src="./Images/readme-img1.png" />
+  <img alt="Aperçu" src="./Images/readme-img1.png" />
 </div>
 
 <br/>
 
-<center>
+## À propos
 
-[![forthebadge](https://forthebadge.com/images/badges/built-with-love.svg)](https://forthebadge.com) &nbsp;
-[![forthebadge](https://forthebadge.com/images/badges/made-with-javascript.svg)](https://forthebadge.com) &nbsp;
-[![forthebadge](https://forthebadge.com/images/badges/open-source.svg)](https://forthebadge.com) &nbsp;
-![GitHub Repo stars](https://img.shields.io/github/stars/soumyajit4419/Portfolio?color=red&logo=github&style=for-the-badge) &nbsp;
-![GitHub forks](https://img.shields.io/github/forks/soumyajit4419/Portfolio?color=red&logo=github&style=for-the-badge)
+Ce dépôt contient le code source du portfolio de **Williams Lenkeu**. 
+Il présente mon profil, mes compétences, quelques projets réalisés (web, mobile et back‑end) ainsi que mon CV.
 
-</center>
+## Stack technique
 
-<h3 align="center">
-    🔹
-    <a href="https://github.com/soumyajit4419/Portfolio/issues">Report Bug</a> &nbsp; &nbsp;
-    🔹
-    <a href="https://github.com/soumyajit4419/Portfolio/issues">Request Feature</a>
-</h3>
+- React.js (create‑react‑app)
+- React‑Bootstrap / CSS3
+- JavaScript (ES2020+)
 
-## TL;DR
+## Fonctionnalités
 
-You can fork this repo to modify and make changes of your own. Please give me proper credit by linking back to [Soumyajit4419](https://github.com/soumyajit4419/Portfolio). Thanks!
+- **Pages**: Accueil, À propos, Projets, CV
+- **Design responsive** et thèmes facilement personnalisables
+- **Affichage du CV** et bouton de téléchargement
 
-## Built With
+## Démarrage rapide
 
-My personal portfolio <a href="https://soumyajit.vercel.app/" target="_blank">soumyajit.tech</a> which features some of my github projects as well as my resume and technical skills.<br/>
+Pré‑requis: `Node.js` et `git` installés.
 
-This project was built using these technologies.
+1. Installer les dépendances:
 
-- React.js
-- Node.js
-- Express.js
-- CSS3
-- VsCode
-- Vercel
+   `npm install`
 
-## Features
+2. Lancer en développement:
 
-**📖 Multi-Page Layout**
+   `npm start`
 
-**🎨 Styled with React-Bootstrap and Css with easy to customize colors**
+   L’application démarre sur `http://localhost:3000`.
 
-**📱 Fully Responsive**
+## Personnalisation rapide
 
-## Getting Started
+- Textes principaux: `src/components/Home/Home.js` et `src/components/Home/Home2.js`
+- Section projets: `src/components/Projects/Projects.js`
+- CV affiché: `src/components/Resume/ResumeNew.js` (mettre à jour le PDF dans `src/Assets/`)
+- Navigation: `src/components/Navbar.js`
 
-Clone down this repository. You will need `node.js` and `git` installed globally on your machine.
+## Licence
 
-## 🛠 Installation and Setup Instructions
+Code ouvert pour usage personnel/éducatif. Merci de citer l’auteur si vous réutilisez des parties du projet.
 
-1. Installation: `npm install`
+---
 
-2. In the project directory, you can run: `npm start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-The page will reload if you make edits.
-
-## Usage Instructions
-
-Open the project folder and Navigate to `/src/components/`. <br/>
-You will find all the components used and you can edit your information accordingly.
-
-### Show your support
-
-Give a ⭐ if you like this website!
-
-<a href="https://www.buymeacoffee.com/soumyajit4419" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-violet.png" alt="Buy Me A Coffee" height= "60px" width= "217px" ></a>
+Si ce portfolio vous plaît, n’hésitez pas à laisser une ⭐ !
