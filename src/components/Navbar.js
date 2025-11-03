@@ -38,7 +38,7 @@ function NavBar() {
     >
       <Container>
         <Navbar.Brand href="/" className="d-flex">
-          <span style={{ color: "#a148eb", fontWeight: "bold", fontSize: "2rem" }}>WL.</span>
+          <span style={{ color: "var(--accent-purple)", fontWeight: "bold", fontSize: "2rem" }}>WL.</span>
         </Navbar.Brand>
         <Navbar.Toggle
           aria-controls="responsive-navbar-nav"

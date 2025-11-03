@@ -25,7 +25,7 @@ function Footer() {
               <a
                 // href="https://github.com/soumyajit4419"
                 href="##"
-                style={{ color: "white" }}
+                style={{ color: "var(--light-text)" }}
                 target="_blank" 
                 rel="noopener noreferrer"
               >
@@ -35,7 +35,7 @@ function Footer() {
             <li className="social-icons">
               <a
                 href="##"
-                style={{ color: "white" }}
+                style={{ color: "var(--light-text)" }}
                 target="_blank" 
                 rel="noopener noreferrer"
               >
@@ -45,7 +45,7 @@ function Footer() {
             <li className="social-icons">
               <a
                 href="##"
-                style={{ color: "white" }}
+                style={{ color: "var(--light-text)" }}
                 target="_blank" 
                 rel="noopener noreferrer"
               >
@@ -55,7 +55,7 @@ function Footer() {
             <li className="social-icons">
               <a
                 href="##"
-                style={{ color: "white" }}
+                style={{ color: "var(--light-text)" }}
                 target="_blank" 
                 rel="noopener noreferrer"
               >
