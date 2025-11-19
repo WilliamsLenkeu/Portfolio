@@ -1,8 +1,476 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================
+   VARIABLES CSS PERSONNALISÉES
+   ============================================ */
+:root {
+  /* Palette de couleurs HSL moderne */
+  --color-primary: 222 47% 11%;
+  --color-secondary: 217 33% 17%;
+  --color-accent: 199 89% 48%;
+  --color-accent-purple: 243 75% 59%;
+  --color-accent-pink: 316 73% 69%;
+  --color-text: 0 0% 100%;
+  --color-text-muted: 215 20% 65%;
+  --color-bg-dark: 222 47% 11%;
+  
+  /* Espacements */
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 1.5rem;
+  --spacing-xl: 2rem;
+  
+  /* Transitions */
+  --transition-fast: 150ms ease;
+  --transition-base: 300ms ease;
+  --transition-slow: 500ms ease;
+}
+
+/* ============================================
+   STYLES DE BASE
+   ============================================ */
+* {
+  scroll-behavior: smooth;
+}
+
 body {
   margin: 0;
-  font-family: 'Poppins', sans-serif !important;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-image: linear-gradient(to left, rgb(27 20 41), rgb(20 15 35));
+  background-color: hsl(var(--color-bg-dark));
+  color: hsl(var(--color-text));
+  overflow-x: hidden;
+}
+
+code {
+  font-family: 'Fira Code', source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+/* ============================================
+   ANIMATIONS KEYFRAMES
+   ============================================ */
+
+/* Gradient animé */
+@keyframes gradient-shift {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+/* Flottement doux */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+/* Pulsation de glow */
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(56, 189, 248, 0.3),
+                0 0 40px rgba(56, 189, 248, 0.1);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(56, 189, 248, 0.6),
+                0 0 80px rgba(56, 189, 248, 0.3);
+  }
+}
+
+/* Rotation douce */
+@keyframes rotate-slow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Apparition en fondu */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Slide depuis la gauche */
+@keyframes slide-in-left {
+  from {
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Slide depuis la droite */
+@keyframes slide-in-right {
+  from {
+    opacity: 0;
+    transform: translateX(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Scale bounce */
+@keyframes scale-bounce {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+/* Shimmer effect */
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+/* ============================================
+   CLASSES UTILITAIRES - ARRIÈRE-PLANS
+   ============================================ */
+
+/* Gradient mesh animé */
+.animated-gradient-bg {
+  background: linear-gradient(
+    -45deg,
+    hsl(var(--color-primary)),
+    hsl(var(--color-secondary)),
+    hsl(222 47% 8%),
+    hsl(243 47% 13%)
+  );
+  background-size: 400% 400%;
+  animation: gradient-shift 15s ease infinite;
+}
+
+/* Gradient radial */
+.radial-gradient-bg {
+  background: radial-gradient(
+    circle at 50% 50%,
+    hsl(var(--color-secondary)) 0%,
+    hsl(var(--color-primary)) 100%
+  );
+}
+
+/* ============================================
+   CLASSES UTILITAIRES - TEXTE
+   ============================================ */
+
+/* Texte avec gradient */
+.gradient-text {
+  background: linear-gradient(
+    135deg,
+    hsl(var(--color-accent)) 0%,
+    hsl(var(--color-accent-purple)) 50%,
+    hsl(var(--color-accent-pink)) 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Texte avec gradient animé */
+.gradient-text-animated {
+  background: linear-gradient(
+    90deg,
+    hsl(var(--color-accent)),
+    hsl(var(--color-accent-purple)),
+    hsl(var(--color-accent-pink)),
+    hsl(var(--color-accent))
+  );
+  background-size: 300% 100%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: gradient-shift 3s ease infinite;
+}
+
+/* Texte néon */
+.neon-text {
+  color: hsl(var(--color-accent));
+  text-shadow: 
+    0 0 10px hsla(var(--color-accent), 0.5),
+    0 0 20px hsla(var(--color-accent), 0.3),
+    0 0 30px hsla(var(--color-accent), 0.2);
+}
+
+/* ============================================
+   CLASSES UTILITAIRES - EFFETS GLOW
+   ============================================ */
+
+/* Glow accent */
+.glow-accent {
+  box-shadow: 
+    0 0 20px rgba(56, 189, 248, 0.3),
+    0 0 40px rgba(56, 189, 248, 0.2);
+}
+
+/* Glow accent au survol */
+.glow-accent-hover {
+  transition: box-shadow var(--transition-base);
+}
+
+.glow-accent-hover:hover {
+  box-shadow: 
+    0 0 30px rgba(56, 189, 248, 0.5),
+    0 0 60px rgba(56, 189, 248, 0.3),
+    0 0 90px rgba(56, 189, 248, 0.1);
+}
+
+/* Glow purple */
+.glow-purple {
+  box-shadow: 
+    0 0 20px rgba(139, 92, 246, 0.3),
+    0 0 40px rgba(139, 92, 246, 0.2);
+}
+
+/* Glow pink */
+.glow-pink {
+  box-shadow: 
+    0 0 20px rgba(236, 72, 153, 0.3),
+    0 0 40px rgba(236, 72, 153, 0.2);
+}
+
+/* ============================================
+   CLASSES UTILITAIRES - GLASSMORPHISM
+   ============================================ */
+
+/* Glass basique */
+.glass {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Glass avec plus de blur */
+.glass-strong {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+/* Glass sombre */
+.glass-dark {
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* ============================================
+   CLASSES UTILITAIRES - ANIMATIONS
+   ============================================ */
+
+/* Animation de flottement */
+.float-animation {
+  animation: float 6s ease-in-out infinite;
+}
+
+/* Animation de pulsation glow */
+.pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+/* Animation de rotation lente */
+.rotate-slow {
+  animation: rotate-slow 20s linear infinite;
+}
+
+/* Fade in */
+.fade-in {
+  animation: fade-in 0.6s ease-out forwards;
+}
+
+/* Slide in left */
+.slide-in-left {
+  animation: slide-in-left 0.6s ease-out forwards;
+}
+
+/* Slide in right */
+.slide-in-right {
+  animation: slide-in-right 0.6s ease-out forwards;
+}
+
+/* Scale bounce */
+.scale-bounce {
+  animation: scale-bounce 2s ease-in-out infinite;
+}
+
+/* Délais d'animation */
+.animation-delay-200 {
+  animation-delay: 200ms;
+}
+
+.animation-delay-400 {
+  animation-delay: 400ms;
+}
+
+.animation-delay-600 {
+  animation-delay: 600ms;
+}
+
+.animation-delay-800 {
+  animation-delay: 800ms;
+}
+
+.animation-delay-1000 {
+  animation-delay: 1000ms;
+}
+
+/* ============================================
+   CLASSES UTILITAIRES - BORDURES
+   ============================================ */
+
+/* Bordure avec gradient */
+.border-gradient {
+  position: relative;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+.border-gradient::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 2px;
+  background: linear-gradient(
+    135deg,
+    hsl(var(--color-accent)),
+    hsl(var(--color-accent-purple)),
+    hsl(var(--color-accent-pink))
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+/* ============================================
+   CLASSES UTILITAIRES - HOVER EFFECTS
+   ============================================ */
+
+/* Lift au survol */
+.hover-lift {
+  transition: transform var(--transition-base), box-shadow var(--transition-base);
+}
+
+.hover-lift:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+/* Scale au survol */
+.hover-scale {
+  transition: transform var(--transition-base);
+}
+
+.hover-scale:hover {
+  transform: scale(1.05);
+}
+
+/* Glow au survol */
+.hover-glow {
+  transition: box-shadow var(--transition-base);
+}
+
+.hover-glow:hover {
+  box-shadow: 
+    0 0 20px rgba(56, 189, 248, 0.4),
+    0 0 40px rgba(56, 189, 248, 0.2);
+}
+
+/* ============================================
+   SCROLLBAR PERSONNALISÉE
+   ============================================ */
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: hsl(var(--color-primary));
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(
+    180deg,
+    hsl(var(--color-accent)),
+    hsl(var(--color-accent-purple))
+  );
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(
+    180deg,
+    hsl(var(--color-accent-purple)),
+    hsl(var(--color-accent-pink))
+  );
+}
+
+/* ============================================
+   RESPONSIVE UTILITIES
+   ============================================ */
+
+@media (max-width: 768px) {
+  .float-animation {
+    animation: float 8s ease-in-out infinite;
+  }
+  
+  .pulse-glow {
+    animation: pulse-glow 3s ease-in-out infinite;
+  }
+}
+
+/* ============================================
+   ACCESSIBILITY
+   ============================================ */
+
+/* Réduire les animations pour les utilisateurs qui préfèrent */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Focus visible pour l'accessibilité */
+:focus-visible {
+  outline: 2px solid hsl(var(--color-accent));
+  outline-offset: 2px;
 }
