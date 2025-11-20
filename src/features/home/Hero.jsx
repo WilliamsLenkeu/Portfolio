@@ -5,6 +5,7 @@ import { FaGithub, FaLinkedin, FaEnvelope } from 'react-icons/fa';
 import { HiArrowRight } from 'react-icons/hi';
 import ParticlesBackground from '../../components/ui/ParticlesBackground';
 import Button from '../../components/ui/Button';
+import avatarImage from '../../Assets/avatar.webp';
 
 const Hero = () => {
   return (
@@ -30,9 +31,11 @@ const Hero = () => {
           >
             <div className="absolute inset-0 bg-gradient-to-r from-accent via-accent-purple to-accent-pink rounded-full blur-xl opacity-50 animate-pulse-glow" />
             <div className="relative w-32 h-32 md:w-40 md:h-40 rounded-full bg-gradient-to-br from-accent via-accent-purple to-accent-pink p-1 glow-accent">
-              <div className="w-full h-full rounded-full bg-primary flex items-center justify-center text-4xl md:text-5xl font-bold gradient-text-animated">
-                WL
-              </div>
+              <img 
+                src={avatarImage} 
+                alt="Williams Lenkeu" 
+                className="w-full h-full rounded-full object-cover"
+              />
             </div>
           </motion.div>
 

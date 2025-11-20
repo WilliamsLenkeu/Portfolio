@@ -9,57 +9,48 @@ const Projects = () => {
 
   const projects = useMemo(() => [
     {
+      title: "Orientation Académique App",
+      description: "Application mobile d'aide à l'orientation académique. Solution complète incluant une interface mobile intuitive et un backend robuste.",
+      image: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=800&q=80",
+      github: "#",
+      demo: "#",
+      tags: ["Flutter", "NestJS", "Mobile"],
+      category: "Mobile"
+    },
+    {
+      title: "Communication App",
+      description: "Application mobile de communication en temps réel développée avec Flutter pour faciliter les échanges au sein d'une organisation.",
+      image: "https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=800&q=80",
+      github: "#",
+      demo: "#",
+      tags: ["Flutter", "Dart", "Mobile"],
+      category: "Mobile"
+    },
+    {
+      title: "Recruitment Platform",
+      description: "Application web de gestion du processus de recrutement. Optimisation des flux de travail et gestion des candidats.",
+      image: "https://images.unsplash.com/photo-1586281380349-632531db7ed4?w=800&q=80",
+      github: "#",
+      demo: "#",
+      tags: ["Django", "Python", "Web"],
+      category: "Web"
+    },
+    {
+      title: "Gestion Inscriptions",
+      description: "Plateforme web pour la gestion des inscriptions aux formations. Interface responsive et tableau de bord administratif.",
+      image: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&q=80",
+      github: "#",
+      demo: "#",
+      tags: ["Web", "Responsive", "Management"],
+      category: "Web"
+    },
+    {
       title: "Portfolio Personnel",
-      description: "Mon site personnel construit avec React, Tailwind CSS et Framer Motion. Il présente mes projets et mes compétences avec des animations modernes et un design premium.",
+      description: "Mon site personnel construit avec React, Tailwind CSS et Framer Motion. Il présente mes projets et mes compétences.",
       image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80",
       github: "https://github.com/WilliamsLenkeu/Portfolio",
       demo: "https://williamslenkeu.com",
       tags: ["React", "Tailwind", "Framer Motion"],
-      category: "Web"
-    },
-    {
-      title: "E-commerce App",
-      description: "Une application de commerce électronique complète avec panier d'achat, système de paiement Stripe, gestion des utilisateurs et interface d'administration.",
-      image: "https://images.unsplash.com/photo-1557821552-17105176677c?w=800&q=80",
-      github: "#",
-      demo: "#",
-      tags: ["Next.js", "Stripe", "MongoDB", "Node.js"],
-      category: "Full Stack"
-    },
-    {
-      title: "Task Manager",
-      description: "Outil de gestion de tâches collaboratif avec synchronisation en temps réel, notifications push et interface intuitive pour les équipes.",
-      image: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&q=80",
-      github: "#",
-      demo: "#",
-      tags: ["Vue.js", "Firebase", "Vuex"],
-      category: "Web"
-    },
-    {
-      title: "API REST Microservices",
-      description: "Architecture microservices avec API REST, authentification JWT, documentation Swagger et déploiement Docker.",
-      image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&q=80",
-      github: "#",
-      demo: "#",
-      tags: ["Node.js", "Express", "Docker", "PostgreSQL"],
-      category: "Backend"
-    },
-    {
-      title: "Mobile Fitness App",
-      description: "Application mobile de fitness avec suivi d'activités, plans d'entraînement personnalisés et intégration avec wearables.",
-      image: "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=800&q=80",
-      github: "#",
-      demo: "#",
-      tags: ["React Native", "Redux", "Firebase"],
-      category: "Mobile"
-    },
-    {
-      title: "Dashboard Analytics",
-      description: "Tableau de bord analytique avec visualisations de données interactives, rapports personnalisables et export de données.",
-      image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80",
-      github: "#",
-      demo: "#",
-      tags: ["React", "D3.js", "Chart.js", "TypeScript"],
       category: "Web"
     }
   ], []);
