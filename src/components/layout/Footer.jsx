@@ -1,15 +1,15 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { FaGithub, FaLinkedin, FaTwitter, FaEnvelope, FaHeart } from 'react-icons/fa';
+import { FaGithub, FaLinkedin, FaEnvelope, FaHeart } from 'react-icons/fa';
 
 const Footer = () => {
   const year = new Date().getFullYear();
 
   const socialLinks = [
     { icon: <FaGithub size={20} />, url: 'https://github.com/WilliamsLenkeu', label: 'GitHub' },
-    { icon: <FaLinkedin size={20} />, url: 'https://linkedin.com/in/williamslenkeu', label: 'LinkedIn' },
-    { icon: <FaTwitter size={20} />, url: 'https://twitter.com/williamslenkeu', label: 'Twitter' },
+    { icon: <FaLinkedin size={20} />, url: 'https://linkedin.com/in/williams-lenkeu', label: 'LinkedIn' },
+    // { icon: <FaTwitter size={20} />, url: 'https://twitter.com/williamslenkeu', label: 'Twitter' },
     { icon: <FaEnvelope size={20} />, url: 'mailto:contact@williamslenkeu.com', label: 'Email' },
   ];
 
@@ -101,7 +101,7 @@ const Footer = () => {
                   className="text-gray-400 hover:text-accent transition-colors flex items-center gap-2"
                 >
                   <FaEnvelope className="text-accent" />
-                  contact@williamslenkeu.com
+                  williamslenkeu.u@gmail.com
                 </a>
               </li>
               <li className="text-gray-400">

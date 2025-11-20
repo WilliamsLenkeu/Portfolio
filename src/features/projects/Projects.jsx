@@ -7,7 +7,7 @@ import SectionTitle from '../../components/ui/SectionTitle';
 const Projects = () => {
   const [activeCategory, setActiveCategory] = useState('Tous');
 
-  const projects = [
+  const projects = useMemo(() => [
     {
       title: "Portfolio Personnel",
       description: "Mon site personnel construit avec React, Tailwind CSS et Framer Motion. Il présente mes projets et mes compétences avec des animations modernes et un design premium.",
@@ -62,7 +62,7 @@ const Projects = () => {
       tags: ["React", "D3.js", "Chart.js", "TypeScript"],
       category: "Web"
     }
-  ];
+  ], []);
 
   // Extraire toutes les catégories uniques
   const categories = useMemo(() => {

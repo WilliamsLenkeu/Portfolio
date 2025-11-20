@@ -1,11 +1,11 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { 
-  FaReact, FaNodeJs, FaDocker, FaGitAlt, FaDatabase, FaPython,
+  FaReact, FaNodeJs, FaDocker, FaDatabase,
   FaCode, FaServer, FaMobileAlt, FaRocket, FaUsers, FaLightbulb
 } from 'react-icons/fa';
 import { 
-  SiJavascript, SiTypescript, SiTailwindcss
+  SiTypescript, SiTailwindcss
 } from 'react-icons/si';
 import SectionTitle from '../../components/ui/SectionTitle';
 import SkillCard from '../../components/ui/SkillCard';

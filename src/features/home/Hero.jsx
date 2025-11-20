@@ -105,7 +105,7 @@ const Hero = () => {
             <Button
               variant="primary"
               size="lg"
-              onClick={() => window.location.href = '#contact'}
+              onClick={() => window.location.href = 'mailto:contact@williamslenkeu.com'}
               icon={<HiArrowRight className="w-5 h-5" />}
             >
               Me contacter
@@ -137,7 +137,7 @@ const Hero = () => {
               <FaGithub size={24} />
             </motion.a>
             <motion.a
-              href="https://linkedin.com/in/williamslenkeu"
+              href="https://linkedin.com/in/williams-lenkeu"
               target="_blank"
               rel="noopener noreferrer"
               whileHover={{ scale: 1.1, y: -5 }}
@@ -147,7 +147,7 @@ const Hero = () => {
               <FaLinkedin size={24} />
             </motion.a>
             <motion.a
-              href="mailto:contact@williamslenkeu.com"
+              href="mailto:williamslenkeu.u@gmail.com"
               whileHover={{ scale: 1.1, y: -5 }}
               whileTap={{ scale: 0.95 }}
               className="glass p-4 rounded-full text-gray-400 hover:text-accent transition-colors hover:border-accent/30 border border-transparent"
