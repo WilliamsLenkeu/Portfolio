@@ -12,62 +12,89 @@ import cvPDF from '../../Assets/curriculum_vitae.pdf';
 const Resume = () => {
   const experiences = [
     {
-      title: "Développeur Full Stack Senior",
-      company: "Tech Company Inc.",
-      period: "2023 - Présent",
-      description: "Lead technique sur des projets d'envergure, architecture microservices et mentorat d'équipe.",
+      title: "Développeur Fullstack",
+      company: "Smart Service Hub",
+      period: "Jan 2025 - Juin 2025",
+      description: "Développement d'une application mobile Flutter d'aide à l'orientation académique.",
       achievements: [
-        "Migration vers une architecture microservices",
-        "Amélioration des performances de 40%",
-        "Mentorat de 5 développeurs juniors"
+        "Mise en place du frontend avec Flutter",
+        "Développement du backend avec NestJS",
+        "Architecture complète de l'application"
       ]
     },
     {
-      title: "Développeur Full Stack",
-      company: "Startup Innovation",
-      period: "2021 - 2023",
-      description: "Développement de features clés et optimisation des performances.",
+      title: "Assistant service courriel",
+      company: "Ministère de l'enseignement supérieur",
+      period: "Avril 2024 - Juin 2024",
+      description: "Assistant au service de courriel du ministère.",
       achievements: [
-        "Développement de 15+ features majeures",
-        "Réduction du temps de chargement de 60%",
-        "Mise en place de CI/CD"
+        "Gestion des communications",
+        "Support administratif"
+      ]
+    },
+    {
+      title: "Développeur Frontend Mobile",
+      company: "SKLF GROUP",
+      period: "Juin 2023 - Sept 2023",
+      description: "Développement d'une application mobile de communication en Flutter.",
+      achievements: [
+        "Développement d'une application mobile de communication",
+        "Interface utilisateur intuitive",
+        "Intégration temps réel"
+      ]
+    },
+    {
+      title: "Développeur Back-end",
+      company: "IccSoft",
+      period: "Juil 2022 - Sept 2022",
+      description: "Développement d'une application web avec Django.",
+      achievements: [
+        "Développement d'une application web de recrutement",
+        "Augmentation de l'efficacité du processus de recrutement",
+        "Optimisation des flux de travail"
+      ]
+    },
+    {
+      title: "Développeur Web",
+      company: "SKLF GROUP",
+      period: "Juin 2021 - Août 2021",
+      description: "Création d'un site web responsive et intégration d'une application web.",
+      achievements: [
+        "Création d'un site web responsive",
+        "Intégration d'une application web pour la gestion des inscriptions aux formations",
+        "Interface administrateur"
       ]
     }
   ];
 
   const education = [
     {
-      degree: "Master en Informatique",
-      school: "École d'Ingénieurs",
-      period: "2019 - 2021",
-      description: "Spécialisation en développement web et architecture logicielle"
+      degree: "Licence Professionnelle d'Informatique",
+      school: "Université de Yaoundé 1, Filière ICT4D",
+      period: "Sept 2022 - Juil 2025",
+      description: "Ingénieur des Travaux Informatiques - Mention Excellente"
     },
     {
-      degree: "Licence en Informatique",
-      school: "Université",
-      period: "2016 - 2019",
-      description: "Fondamentaux de l'informatique et programmation"
+      degree: "Baccalauréat Série TI",
+      school: "Collège La Retraite",
+      period: "Sept 2021 - Juin 2022",
+      description: "Projets scolaires en développement web. Matières principales : algorithmique, programmation avancée"
     }
   ];
 
   const skills = [
-    { category: "Frontend", items: ["React", "Next.js", "TypeScript", "Tailwind CSS", "Framer Motion"] },
-    { category: "Backend", items: ["Node.js", "Express", "NestJS", "GraphQL", "REST API"] },
-    { category: "Database", items: ["MongoDB", "PostgreSQL", "Redis", "Firebase"] },
-    { category: "DevOps", items: ["Docker", "AWS", "CI/CD", "Git", "Linux"] }
+    { category: "Langages", items: ["JavaScript", "PHP", "Dart", "Java"] },
+    { category: "Backend", items: ["NodeJs", "NestJs", "Django", "Spring Boot", "Laravel"] },
+    { category: "Frontend", items: ["ReactJs", "AngularJS", "Flutter", "Bootstrap", "TailwindCss"] },
+    { category: "Database", items: ["MySQL", "PostgreSQL", "Firebase", "MongoDB"] }
   ];
 
   const languages = [
     { name: "Français", level: "Natif" },
-    { name: "Anglais", level: "Courant" },
-    { name: "Allemand", level: "Intermédiaire" }
+    { name: "Anglais", level: "Courant" }
   ];
 
-  const certifications = [
-    "AWS Certified Solutions Architect",
-    "MongoDB Certified Developer",
-    "React Advanced Patterns"
-  ];
+  const certifications = [];
 
   return (
     <section className="py-20 min-h-screen relative overflow-hidden">
@@ -285,27 +312,29 @@ const Resume = () => {
           </motion.div>
 
           {/* Certifications */}
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-          >
-            <div className="flex items-center gap-3 mb-6">
-              <FaAward className="text-2xl text-accent" />
-              <h3 className="text-xl font-bold gradient-text">Certifications</h3>
-            </div>
-            <Card variant="glass-strong">
-              <ul className="space-y-3">
-                {certifications.map((cert, index) => (
-                  <li key={index} className="flex items-start gap-2 text-gray-300">
-                    <span className="text-accent mt-1">🏆</span>
-                    {cert}
-                  </li>
-                ))}
-              </ul>
-            </Card>
-          </motion.div>
+          {certifications.length > 0 && (
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5 }}
+            >
+              <div className="flex items-center gap-3 mb-6">
+                <FaAward className="text-2xl text-accent" />
+                <h3 className="text-xl font-bold gradient-text">Certifications</h3>
+              </div>
+              <Card variant="glass-strong">
+                <ul className="space-y-3">
+                  {certifications.map((cert, index) => (
+                    <li key={index} className="flex items-center gap-3 text-gray-300">
+                      <div className="w-2 h-2 rounded-full bg-accent" />
+                      {cert}
+                    </li>
+                  ))}
+                </ul>
+              </Card>
+            </motion.div>
+          )}
         </div>
       </div>
     </section>
