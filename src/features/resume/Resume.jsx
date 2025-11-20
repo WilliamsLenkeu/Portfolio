@@ -7,6 +7,7 @@ import {
 import SectionTitle from '../../components/ui/SectionTitle';
 import Card from '../../components/ui/Card';
 import Button from '../../components/ui/Button';
+import cvPDF from '../../Assets/curriculum_vitae.pdf';
 
 const Resume = () => {
   const experiences = [
@@ -101,7 +102,26 @@ const Resume = () => {
                 </p>
                 <Button
                   variant="primary"
-                  onClick={() => window.open('#', '_blank')}
+                  onClick={() => {
+                    try {
+                      // Créer un lien de téléchargement avec le fichier importé
+                      const link = document.createElement('a');
+                      link.href = cvPDF;
+                      link.download = 'curriculum_vitae.pdf';
+                      link.target = '_blank';
+                      link.rel = 'noopener noreferrer';
+                      
+                      // Ajouter au DOM, cliquer et nettoyer
+                      document.body.appendChild(link);
+                      link.click();
+                      document.body.removeChild(link);
+                      
+                      console.log('✅ Téléchargement du CV lancé avec succès');
+                    } catch (error) {
+                      console.error('❌ Erreur lors du téléchargement du CV:', error);
+                      alert('Une erreur est survenue lors du téléchargement du CV. Veuillez réessayer.');
+                    }
+                  }}
                   icon={<FaDownload />}
                 >
                   Télécharger le PDF
