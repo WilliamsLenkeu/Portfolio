@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useLayoutEffect, useRef } from "react";
 import cvPDF from "../../Assets/curriculum_vitae.pdf";
-import { useReveal } from "../../lib/useReveal";
+import Arrow from "../../components/ui/Arrow";
+import { gsap, prefersReducedMotion } from "../../lib/gsap";
 
 const footerLinks = [
   { name: "GitHub", url: "https://github.com/WilliamsLenkeu" },
@@ -9,23 +10,90 @@ const footerLinks = [
 
 const Contact = () => {
   const year = new Date().getFullYear();
-  const blockRef = useReveal({ stagger: 0.12, y: 24 });
-  const footerRef = useReveal({ y: 10 });
+  const sectionRef = useRef(null);
+  const emailRef = useRef(null);
+  const introRef = useRef(null);
+  const noteRef = useRef(null);
+  const footerRef = useRef(null);
+
+  useLayoutEffect(() => {
+    const section = sectionRef.current;
+    if (!section || prefersReducedMotion()) return;
+
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: section,
+        start: "top 70%",
+        toggleActions: "play none none none",
+      },
+    });
+
+    if (introRef.current) {
+      tl.fromTo(
+        introRef.current,
+        { opacity: 0, y: 14 },
+        { opacity: 1, y: 0, duration: 0.5, ease: "power3.out", immediateRender: false }
+      );
+    }
+
+    if (emailRef.current) {
+      tl.fromTo(
+        emailRef.current,
+        { clipPath: "inset(0 100% 0 0)", opacity: 0 },
+        {
+          clipPath: "inset(0 0% 0 0)",
+          opacity: 1,
+          duration: 1,
+          ease: "power4.inOut",
+          immediateRender: false,
+        },
+        "-=0.2"
+      );
+    }
+
+    if (noteRef.current) {
+      tl.fromTo(
+        noteRef.current,
+        { opacity: 0, y: 12 },
+        { opacity: 1, y: 0, duration: 0.5, ease: "power3.out", immediateRender: false },
+        "-=0.4"
+      );
+    }
+
+    if (footerRef.current) {
+      tl.fromTo(
+        footerRef.current,
+        { opacity: 0 },
+        { opacity: 1, duration: 0.45, ease: "power2.out", immediateRender: false },
+        "-=0.2"
+      );
+    }
+
+    return () => {
+      tl.scrollTrigger?.kill();
+      tl.kill();
+    };
+  }, []);
 
   return (
-    <section id="contact" className="on-cobalt surface-cobalt border-t border-transparent text-white dark:border-white/10">
+    <section
+      ref={sectionRef}
+      id="contact"
+      className="on-cobalt surface-cobalt border-t border-transparent text-white dark:border-white/10"
+    >
       <div className="mx-auto flex min-h-[80dvh] max-w-page flex-col px-6 pt-28">
-        <div ref={blockRef} className="flex flex-1 flex-col justify-center py-16">
-          <p className="font-mono text-sm text-frost">
+        <div className="flex flex-1 flex-col justify-center py-16">
+          <p ref={introRef} className="font-mono text-sm text-frost">
             Un projet en tête ? Je réponds rapidement.
           </p>
           <a
+            ref={emailRef}
             href="mailto:williamslenkeu.u@gmail.com"
             className="mt-6 inline-block break-words text-[clamp(1.35rem,5.5vw,4.25rem)] font-extrabold leading-tight tracking-tight text-white underline decoration-white/30 decoration-2 underline-offset-8 transition-colors duration-200 hover:decoration-white"
           >
             williamslenkeu.u@gmail.com
           </a>
-          <p className="mt-10 text-base text-frost">
+          <p ref={noteRef} className="mt-10 text-base text-frost">
             Disponible pour missions freelance et collaborations ponctuelles —{" "}
             <a
               href={cvPDF}
@@ -52,7 +120,7 @@ const Contact = () => {
                 rel="noopener noreferrer"
                 className="font-mono text-xs text-frost transition-colors hover:text-white"
               >
-                {link.name} ↗
+                {link.name} <Arrow dir="out" className="ml-1" />
               </a>
             ))}
             <a
@@ -63,7 +131,7 @@ const Contact = () => {
               }}
               className="font-mono text-xs text-frost transition-colors hover:text-white"
             >
-              Haut de page ↑
+              Haut de page <Arrow dir="up" className="ml-1" />
             </a>
           </div>
         </div>

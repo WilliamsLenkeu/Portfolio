@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useLayoutEffect, useRef } from "react";
 import CountUp from "../../components/ui/CountUp";
+import { gsap, prefersReducedMotion } from "../../lib/gsap";
 import { useReveal } from "../../lib/useReveal";
 
 const facts = [
@@ -9,9 +10,37 @@ const facts = [
 ];
 
 const About = () => {
-  const statementRef = useReveal();
-  const proseRef = useReveal({ stagger: 0.12 });
-  const factsRef = useReveal({ stagger: 0.1 });
+  const statementRef = useRef(null);
+  const proseRef = useReveal({ stagger: 0.12, blur: 4 });
+  const factsRef = useReveal({ stagger: 0.12, y: 16 });
+
+  useLayoutEffect(() => {
+    const el = statementRef.current;
+    if (!el || prefersReducedMotion()) return;
+
+    const tween = gsap.fromTo(
+      el,
+      { clipPath: "inset(0 0 100% 0)", y: 20, opacity: 0 },
+      {
+        clipPath: "inset(0 0 0% 0)",
+        y: 0,
+        opacity: 1,
+        duration: 0.95,
+        ease: "power4.out",
+        immediateRender: false,
+        scrollTrigger: {
+          trigger: el,
+          start: "top 85%",
+          toggleActions: "play none none none",
+        },
+      }
+    );
+
+    return () => {
+      tween.scrollTrigger?.kill();
+      tween.kill();
+    };
+  }, []);
 
   return (
     <section id="about" className="bg-paper">

@@ -1,6 +1,7 @@
 import React, { useLayoutEffect, useRef, useState } from "react";
 import SectionTitle from "../../components/ui/SectionTitle";
 import CountUp from "../../components/ui/CountUp";
+import Arrow from "../../components/ui/Arrow";
 import { gsap, prefersReducedMotion } from "../../lib/gsap";
 import { useReveal } from "../../lib/useReveal";
 import { useGithubStats, USERNAME_GITHUB } from "../../lib/useGithubStats";
@@ -13,30 +14,54 @@ const Github = () => {
   const languages = data?.languages ?? [];
 
   const statsRef = useReveal({ stagger: 0.1 });
-  const chartRef = useReveal({ y: 0 });
+  const chartRef = useReveal({ y: 18, blur: 6 });
+  const langBlockRef = useRef(null);
   const barRef = useRef(null);
 
-  // La barre de langages pousse depuis la gauche
   useLayoutEffect(() => {
+    const block = langBlockRef.current;
     const bar = barRef.current;
-    if (!bar || languages.length === 0) return;
+    if (!block || !bar || languages.length === 0 || prefersReducedMotion()) return;
 
-    if (prefersReducedMotion()) {
-      gsap.set(bar, { scaleX: 1 });
-      return;
-    }
+    const legend = block.querySelectorAll("[data-lang]");
 
-    gsap.set(bar, { scaleX: 0, transformOrigin: "left center" });
-    const tween = gsap.to(bar, {
-      scaleX: 1,
-      duration: 0.9,
-      ease: "power3.inOut",
-      scrollTrigger: { trigger: bar, start: "top 90%", toggleActions: "play none none none" },
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: block,
+        start: "top 90%",
+        toggleActions: "play none none none",
+      },
     });
 
+    tl.fromTo(
+      bar,
+      { scaleX: 0 },
+      {
+        scaleX: 1,
+        duration: 0.95,
+        ease: "power3.inOut",
+        transformOrigin: "left center",
+        immediateRender: false,
+      }
+    );
+
+    tl.fromTo(
+      legend,
+      { opacity: 0, y: 8 },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 0.4,
+        ease: "power3.out",
+        stagger: 0.06,
+        immediateRender: false,
+      },
+      "-=0.35"
+    );
+
     return () => {
-      tween.scrollTrigger?.kill();
-      tween.kill();
+      tl.scrollTrigger?.kill();
+      tl.kill();
     };
   }, [languages.length]);
 
@@ -56,13 +81,6 @@ const Github = () => {
           >
             Activité GitHub
           </SectionTitle>
-          <span className="inline-flex items-center gap-2 pt-3 font-mono text-xs text-muted">
-            <span className="relative flex h-1.5 w-1.5">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-500/60" />
-              <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-emerald-500" />
-            </span>
-            Live
-          </span>
         </div>
 
         <div
@@ -78,7 +96,7 @@ const Github = () => {
         </div>
 
         {!loading && languages.length > 0 && (
-          <div className="mt-14">
+          <div ref={langBlockRef} className="mt-14">
             <h3 className="text-sm font-semibold text-ink">Répartition des langages sur les dépôts</h3>
             <div
               ref={barRef}
@@ -96,7 +114,7 @@ const Github = () => {
             </div>
             <ul className="mt-4 flex flex-wrap gap-x-8 gap-y-2">
               {languages.map((lang, index) => (
-                <li key={lang.name} className="flex items-center gap-2 text-sm text-muted">
+                <li key={lang.name} data-lang className="flex items-center gap-2 text-sm text-muted">
                   <span aria-hidden="true" className={`h-2 w-2 bg-cobalt ${segmentOpacities[index] ?? "opacity-25"}`} />
                   {lang.name}
                   <span className="font-mono text-xs text-ink">{lang.percentage}%</span>
@@ -124,7 +142,7 @@ const Github = () => {
           rel="noopener noreferrer"
           className="mt-10 inline-block text-sm text-ink underline underline-offset-4 transition-colors hover:text-cobalt"
         >
-          Voir le profil complet ↗
+          Voir le profil complet <Arrow dir="out" className="ml-1" />
         </a>
       </div>
     </section>

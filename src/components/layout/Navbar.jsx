@@ -1,6 +1,8 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { HiMenuAlt3, HiX, HiOutlineSun, HiOutlineMoon } from "react-icons/hi";
 import { gsap, ScrollTrigger, prefersReducedMotion } from "../../lib/gsap";
+import { runThemeWipe } from "../../lib/themeWipe";
+import Arrow from "../ui/Arrow";
 import cvPDF from "../../Assets/curriculum_vitae.pdf";
 
 const links = [
@@ -18,20 +20,44 @@ const Navbar = () => {
   const [dark, setDark] = useState(
     () => typeof document !== "undefined" && document.documentElement.classList.contains("dark")
   );
+  const [themeBusy, setThemeBusy] = useState(false);
 
   const progressRef = useRef(null);
   const listRef = useRef(null);
-  const pillRef = useRef(null);
+  const ruleRef = useRef(null);
   const menuRef = useRef(null);
+  const themeBtnRef = useRef(null);
+  const iconRef = useRef(null);
 
-  const toggleTheme = () => {
-    const next = !dark;
-    setDark(next);
+  const applyTheme = (next) => {
     document.documentElement.classList.toggle("dark", next);
     localStorage.setItem("theme", next ? "dark" : "light");
+    setDark(next);
   };
 
-  // Barre de progression de lecture
+  const toggleTheme = (e) => {
+    if (themeBusy) return;
+    const next = !dark;
+
+    setThemeBusy(true);
+    runThemeWipe({
+      nextDark: next,
+      originEl: themeBtnRef.current,
+      event: e?.nativeEvent ?? e,
+      onApply: applyTheme,
+      onDone: () => {
+        if (iconRef.current && !prefersReducedMotion()) {
+          gsap.fromTo(
+            iconRef.current,
+            { rotate: next ? 40 : -40, scale: 0.65, opacity: 0 },
+            { rotate: 0, scale: 1, opacity: 1, duration: 0.35, ease: "power3.out" }
+          );
+        }
+        setThemeBusy(false);
+      },
+    });
+  };
+
   useLayoutEffect(() => {
     const bar = progressRef.current;
     if (!bar) return;
@@ -44,28 +70,26 @@ const Navbar = () => {
     return () => st.kill();
   }, []);
 
-  // Pastille de lien actif
   useEffect(() => {
-    const pill = pillRef.current;
+    const rule = ruleRef.current;
     const list = listRef.current;
-    if (!pill || !list) return;
+    if (!rule || !list) return;
 
-    const link = list.querySelector(`a[href="${active}"]`);
+    const link = list.querySelector(`a[data-nav="${active}"]`);
     if (!link) {
-      gsap.to(pill, { opacity: 0, duration: 0.2 });
+      gsap.to(rule, { opacity: 0, duration: 0.2 });
       return;
     }
-    const li = link.parentElement;
-    gsap.to(pill, {
-      x: li.offsetLeft,
-      width: li.offsetWidth,
+
+    gsap.to(rule, {
+      x: link.offsetLeft,
+      width: link.offsetWidth,
       opacity: 1,
-      duration: prefersReducedMotion() ? 0 : 0.35,
+      duration: prefersReducedMotion() ? 0 : 0.4,
       ease: "power3.out",
     });
-  }, [active]);
+  }, [active, onCobalt]);
 
-  // Menu mobile
   useEffect(() => {
     const menu = menuRef.current;
     if (!menu) return;
@@ -110,15 +134,23 @@ const Navbar = () => {
     document.querySelector(href)?.scrollIntoView({ behavior: "smooth" });
   };
 
+  const cvLinkClass = onCobalt
+    ? "font-mono text-xs tracking-wide text-frost transition-colors hover:text-white"
+    : "font-mono text-xs tracking-wide text-muted transition-colors hover:text-cobalt";
+
   const themeButton = (
     <button
+      ref={themeBtnRef}
       onClick={toggleTheme}
+      disabled={themeBusy}
       aria-label={dark ? "Activer le thème clair" : "Activer le thème sombre"}
-      className={`inline-flex h-8 w-8 items-center justify-center rounded-full transition-colors duration-200 ${
-        onCobalt ? "text-frost hover:bg-white/10 hover:text-white" : "text-muted hover:bg-ink/5 hover:text-ink"
+      className={`inline-flex h-8 w-8 items-center justify-center transition-colors duration-200 disabled:opacity-60 ${
+        onCobalt ? "text-frost hover:text-white" : "text-muted hover:text-ink"
       }`}
     >
-      {dark ? <HiOutlineSun size={18} /> : <HiOutlineMoon size={18} />}
+      <span ref={iconRef} className="inline-flex">
+        {dark ? <HiOutlineSun size={18} /> : <HiOutlineMoon size={18} />}
+      </span>
     </button>
   );
 
@@ -140,29 +172,30 @@ const Navbar = () => {
           WL<span className={onCobalt ? "text-frost" : "text-cobalt"}>·</span>
         </a>
 
-        <ul ref={listRef} className="relative hidden items-center gap-1 md:flex">
+        <ul ref={listRef} className="relative hidden items-center gap-6 md:flex">
           <span
-            ref={pillRef}
+            ref={ruleRef}
             aria-hidden="true"
-            className={`absolute inset-y-0 left-0 w-0 rounded-full opacity-0 ${
-              onCobalt ? "bg-white/15" : "bg-cobalt/10"
+            className={`pointer-events-none absolute bottom-0 left-0 h-0.5 w-0 opacity-0 ${
+              onCobalt ? "bg-white" : "bg-cobalt"
             }`}
           />
           {links.map((link) => (
-            <li key={link.name} className="relative">
+            <li key={link.name}>
               <a
+                data-nav={link.href}
                 href={link.href}
                 onClick={(e) => {
                   e.preventDefault();
                   handleClick(link.href);
                 }}
-                className={`relative z-10 block px-3 py-2 text-sm transition-colors duration-200 ${
+                className={`relative block pb-1 text-sm transition-colors duration-200 ${
                   onCobalt
                     ? active === link.href
                       ? "text-white"
                       : "text-frost hover:text-white"
                     : active === link.href
-                    ? "text-cobalt"
+                    ? "text-ink"
                     : "text-muted hover:text-ink"
                 }`}
               >
@@ -170,23 +203,22 @@ const Navbar = () => {
               </a>
             </li>
           ))}
-          <li className="ml-3">
-            <a
-              href={cvPDF}
-              download="williams-lenkeu-cv.pdf"
-              className={`rounded-full border px-4 py-1.5 text-sm transition-colors duration-200 ${
-                onCobalt
-                  ? "border-white/40 text-white hover:border-white hover:bg-white/10"
-                  : "border-ink/20 text-ink hover:border-cobalt hover:text-cobalt"
-              }`}
-            >
-              CV
+          <li
+            className={`ml-1 flex items-center gap-4 border-l pl-5 ${
+              onCobalt ? "border-white/25" : "border-ink/15"
+            }`}
+          >
+            <a href={cvPDF} download="williams-lenkeu-cv.pdf" className={cvLinkClass}>
+              CV <Arrow dir="down" className="ml-0.5" />
             </a>
+            {themeButton}
           </li>
-          <li className="ml-1">{themeButton}</li>
         </ul>
 
         <div className="flex items-center gap-2 md:hidden">
+          <a href={cvPDF} download="williams-lenkeu-cv.pdf" className={cvLinkClass}>
+            CV <Arrow dir="down" />
+          </a>
           {themeButton}
           <button
             onClick={() => setIsOpen((v) => !v)}
@@ -234,6 +266,12 @@ const Navbar = () => {
               }`}
             >
               {link.name}
+              {active === link.href && (
+                <span
+                  aria-hidden="true"
+                  className={`ml-2 inline-block h-0.5 w-4 align-middle ${onCobalt ? "bg-white" : "bg-cobalt"}`}
+                />
+              )}
             </a>
           </li>
         ))}
@@ -242,9 +280,9 @@ const Navbar = () => {
             href={cvPDF}
             download="williams-lenkeu-cv.pdf"
             tabIndex={isOpen ? 0 : -1}
-            className={`block px-6 py-4 text-sm ${onCobalt ? "text-frost" : "text-muted"}`}
+            className={`block px-6 py-4 font-mono text-sm ${onCobalt ? "text-frost" : "text-muted"}`}
           >
-            Télécharger le CV
+            Télécharger le CV <Arrow dir="down" className="ml-1" />
           </a>
         </li>
       </ul>

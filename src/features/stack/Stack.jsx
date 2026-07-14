@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useLayoutEffect, useRef } from "react";
 import SectionTitle from "../../components/ui/SectionTitle";
-import { useReveal } from "../../lib/useReveal";
+import { gsap, prefersReducedMotion } from "../../lib/gsap";
 
 const groups = [
   { category: "Langages", items: ["JavaScript", "PHP", "Dart", "Java"] },
@@ -10,7 +10,59 @@ const groups = [
 ];
 
 const Stack = () => {
-  const rowsRef = useReveal({ stagger: 0.1 });
+  const listRef = useRef(null);
+
+  useLayoutEffect(() => {
+    const list = listRef.current;
+    if (!list || prefersReducedMotion()) return;
+
+    const rows = list.querySelectorAll("[data-stack-row]");
+    const tweens = [];
+
+    rows.forEach((row, rowIndex) => {
+      const label = row.querySelector("[data-stack-label]");
+      const chips = row.querySelectorAll("[data-stack-chip]");
+
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: row,
+          start: "top 90%",
+          toggleActions: "play none none none",
+        },
+      });
+
+      if (label) {
+        tl.fromTo(
+          label,
+          { opacity: 0, x: -10 },
+          { opacity: 1, x: 0, duration: 0.45, ease: "power3.out", immediateRender: false }
+        );
+      }
+
+      tl.fromTo(
+        chips,
+        { opacity: 0, y: 14 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.5,
+          ease: "power4.out",
+          stagger: 0.045,
+          immediateRender: false,
+        },
+        rowIndex === 0 ? "-=0.15" : "-=0.25"
+      );
+
+      tweens.push(tl);
+    });
+
+    return () => {
+      tweens.forEach((tl) => {
+        tl.scrollTrigger?.kill();
+        tl.kill();
+      });
+    };
+  }, []);
 
   return (
     <section id="stack" className="bg-paper">
@@ -19,21 +71,33 @@ const Stack = () => {
           Stack technique
         </SectionTitle>
 
-        <div ref={rowsRef} className="border-b border-ink/10">
+        <div ref={listRef} className="border-b border-ink/10">
           {groups.map((group) => (
             <div
               key={group.category}
+              data-stack-row
               className="grid grid-cols-1 gap-3 border-t border-ink/10 py-9 sm:grid-cols-[160px_1fr] sm:gap-8"
             >
-              <span className="pt-2 font-mono text-xs text-muted">{group.category}</span>
+              <span data-stack-label className="pt-2 font-mono text-xs text-muted">
+                {group.category}
+              </span>
               <p className="flex flex-wrap items-baseline gap-x-4 gap-y-2">
                 {group.items.map((name, i) => (
                   <React.Fragment key={name}>
-                    <span className="cursor-default text-2xl font-bold tracking-tight text-ink transition-colors duration-200 hover:text-cobalt sm:text-3xl">
+                    <span
+                      data-stack-chip
+                      className="cursor-default text-2xl font-bold tracking-tight text-ink transition-colors duration-200 hover:text-cobalt sm:text-3xl"
+                    >
                       {name}
                     </span>
                     {i < group.items.length - 1 && (
-                      <span aria-hidden="true" className="text-2xl font-bold text-cobalt sm:text-3xl">·</span>
+                      <span
+                        data-stack-chip
+                        aria-hidden="true"
+                        className="text-2xl font-bold text-cobalt sm:text-3xl"
+                      >
+                        ·
+                      </span>
                     )}
                   </React.Fragment>
                 ))}

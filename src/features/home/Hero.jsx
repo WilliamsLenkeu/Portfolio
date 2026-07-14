@@ -23,30 +23,38 @@ const Hero = () => {
       gsap.set(lines, { clipPath: "inset(0% 0% 0% 0%)", opacity: 1, y: 0 });
       gsap.set(portraitRef.current, { clipPath: "inset(0% 0% 0% 0%)" });
       gsap.set(fadeItems, { opacity: 1, y: 0 });
+      const rail = section.querySelector("[data-hero-rail]");
+      if (rail) gsap.set(rail, { opacity: 1, y: 0 });
       return;
     }
+
+    const rail = section.querySelector("[data-hero-rail]");
 
     gsap.set(lines, { clipPath: "inset(0% 0% 100% 0%)", opacity: 0, y: 20 });
     gsap.set(portraitRef.current, { clipPath: "inset(0% 0% 100% 0%)" });
     gsap.set(fadeItems, { opacity: 0, y: 16 });
+    if (rail) gsap.set(rail, { opacity: 0, y: 24 });
 
-    const tl = gsap.timeline({ delay: 0.15 });
-    tl.to(fadeItems[0], { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" });
+    const tl = gsap.timeline({ delay: 0.12 });
+    tl.to(fadeItems[0], { opacity: 1, y: 0, duration: 0.45, ease: "power3.out" });
     tl.to(
       lines,
-      { clipPath: "inset(0% 0% 0% 0%)", opacity: 1, y: 0, duration: 0.9, ease: "power4.out", stagger: 0.12 },
-      "-=0.3"
+      { clipPath: "inset(0% 0% 0% 0%)", opacity: 1, y: 0, duration: 0.95, ease: "power4.out", stagger: 0.11 },
+      "-=0.25"
     );
     tl.to(
       portraitRef.current,
-      { clipPath: "inset(0% 0% 0% 0%)", duration: 1.1, ease: "power4.inOut" },
-      "-=0.9"
+      { clipPath: "inset(0% 0% 0% 0%)", duration: 1.15, ease: "power4.inOut" },
+      "-=0.95"
     );
     tl.to(
       Array.from(fadeItems).slice(1),
-      { opacity: 1, y: 0, duration: 0.5, ease: "power3.out", stagger: 0.1 },
-      "-=0.6"
+      { opacity: 1, y: 0, duration: 0.5, ease: "power3.out", stagger: 0.09 },
+      "-=0.55"
     );
+    if (rail) {
+      tl.to(rail, { y: 0, opacity: 1, duration: 0.55, ease: "power3.out" }, "-=0.35");
+    }
 
     // Parallaxe discrète du portrait au scroll
     const parallax = gsap.to(portraitImgRef.current, {
@@ -117,11 +125,11 @@ const Hero = () => {
         </div>
       </div>
 
-      <div className="surface-cobalt relative z-10 border-t border-white/25 dark:border-white/10">
-        <div
-          data-hero-fade
-          className="mx-auto flex w-full max-w-[1400px] flex-col gap-2 px-6 py-4 font-mono text-xs text-frost sm:flex-row sm:items-center sm:justify-between"
-        >
+      <div
+        data-hero-rail
+        className="surface-cobalt relative z-10 border-t border-white/25 dark:border-white/10"
+      >
+        <div className="mx-auto flex w-full max-w-[1400px] flex-col gap-2 px-6 py-4 font-mono text-xs text-frost sm:flex-row sm:items-center sm:justify-between">
           <a
             href={`https://github.com/${USERNAME_GITHUB}`}
             target="_blank"
@@ -132,11 +140,7 @@ const Hero = () => {
               ? `${data.repos} dépôts publics · ${data.stars} étoiles · ${data.followers} abonnés GitHub`
               : "Activité GitHub en direct…"}
           </a>
-          <span className="inline-flex items-center gap-2">
-            <span className="relative flex h-1.5 w-1.5">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-300/60" />
-              <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-emerald-300" />
-            </span>
+          <span className="font-mono text-xs text-frost">
             Disponible pour du freelance
           </span>
         </div>

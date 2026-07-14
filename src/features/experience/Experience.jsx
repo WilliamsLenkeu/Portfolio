@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useLayoutEffect, useRef } from "react";
 import SectionTitle from "../../components/ui/SectionTitle";
-import { useReveal } from "../../lib/useReveal";
+import { gsap, prefersReducedMotion } from "../../lib/gsap";
 
 const experiences = [
   {
@@ -87,18 +87,85 @@ const education = [
 ];
 
 const Ledger = ({ label, rows }) => {
-  const rowsRef = useReveal({ stagger: 0.07, y: 14 });
+  const wrapRef = useRef(null);
+  const ruleRef = useRef(null);
+
+  useLayoutEffect(() => {
+    const wrap = wrapRef.current;
+    if (!wrap || prefersReducedMotion()) return;
+
+    const header = wrap.querySelector("[data-ledger-head]");
+    const items = wrap.querySelectorAll("[data-ledger-row]");
+
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: wrap,
+        start: "top 88%",
+        toggleActions: "play none none none",
+      },
+    });
+
+    if (ruleRef.current) {
+      tl.fromTo(
+        ruleRef.current,
+        { scaleX: 0 },
+        {
+          scaleX: 1,
+          duration: 0.7,
+          ease: "power3.inOut",
+          transformOrigin: "left center",
+          immediateRender: false,
+        }
+      );
+    }
+
+    if (header) {
+      tl.fromTo(
+        header,
+        { opacity: 0, y: 8 },
+        { opacity: 1, y: 0, duration: 0.4, ease: "power3.out", immediateRender: false },
+        "-=0.4"
+      );
+    }
+
+    tl.fromTo(
+      items,
+      { opacity: 0, y: 16 },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 0.5,
+        ease: "power4.out",
+        stagger: 0.06,
+        immediateRender: false,
+      },
+      "-=0.2"
+    );
+
+    return () => {
+      tl.scrollTrigger?.kill();
+      tl.kill();
+    };
+  }, []);
 
   return (
-    <div>
-      <div className="flex items-baseline justify-between border-b-2 border-ink pb-3">
-        <h3 className="text-sm font-bold uppercase tracking-wide text-ink">{label}</h3>
-        <span className="font-mono text-xs text-muted">{rows.length} entrées</span>
+    <div ref={wrapRef}>
+      <div className="relative flex items-baseline justify-between border-b-2 border-transparent pb-3">
+        <span
+          ref={ruleRef}
+          aria-hidden="true"
+          className="absolute inset-x-0 bottom-0 h-0.5 origin-left bg-ink"
+        />
+        <div data-ledger-head className="flex w-full items-baseline justify-between">
+          <h3 className="text-sm font-bold uppercase tracking-wide text-ink">{label}</h3>
+          <span className="font-mono text-xs text-muted">{rows.length} entrées</span>
+        </div>
       </div>
-      <div ref={rowsRef}>
+      <div>
         {rows.map((item) => (
           <div
             key={`${item.title}-${item.period}`}
+            data-ledger-row
             className="grid grid-cols-[72px_1fr] gap-4 border-b border-ink/10 py-6 transition-colors duration-200 hover:bg-cobalt/[0.04] sm:grid-cols-[110px_260px_1fr] sm:gap-8"
           >
             <div>

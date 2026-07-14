@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useLayoutEffect, useRef } from "react";
 import SectionTitle from "../../components/ui/SectionTitle";
-import { useReveal } from "../../lib/useReveal";
+import Arrow from "../../components/ui/Arrow";
+import { gsap, prefersReducedMotion } from "../../lib/gsap";
 
 const projects = [
   {
@@ -41,7 +42,63 @@ const projects = [
 ];
 
 const Projects = () => {
-  const listRef = useReveal({ stagger: 0.08 });
+  const listRef = useRef(null);
+
+  useLayoutEffect(() => {
+    const list = listRef.current;
+    if (!list || prefersReducedMotion()) return;
+
+    const rows = list.querySelectorAll("[data-project]");
+    const tweens = [];
+
+    rows.forEach((row) => {
+      const curtain = row.querySelector("[data-curtain]");
+
+      const enter = gsap.fromTo(
+        row,
+        { opacity: 0, y: 22 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.65,
+          ease: "power4.out",
+          immediateRender: false,
+          scrollTrigger: {
+            trigger: row,
+            start: "top 90%",
+            toggleActions: "play none none none",
+          },
+        }
+      );
+      tweens.push(enter);
+
+      if (!curtain) return;
+
+      const onEnter = () => gsap.to(curtain, { scaleY: 1, duration: 0.35, ease: "power3.out" });
+      const onLeave = () => gsap.to(curtain, { scaleY: 0, duration: 0.3, ease: "power3.inOut" });
+
+      row.addEventListener("mouseenter", onEnter);
+      row.addEventListener("mouseleave", onLeave);
+      row.addEventListener("focusin", onEnter);
+      row.addEventListener("focusout", onLeave);
+
+      tweens.push({
+        kill: () => {
+          row.removeEventListener("mouseenter", onEnter);
+          row.removeEventListener("mouseleave", onLeave);
+          row.removeEventListener("focusin", onEnter);
+          row.removeEventListener("focusout", onLeave);
+        },
+      });
+    });
+
+    return () => {
+      tweens.forEach((t) => {
+        t.scrollTrigger?.kill();
+        t.kill?.();
+      });
+    };
+  }, []);
 
   return (
     <section id="projects" className="bg-paper">
@@ -54,25 +111,22 @@ const Projects = () => {
           {projects.map((project) => (
             <a
               key={project.title}
+              data-project
               href={project.url}
               target="_blank"
               rel="noopener noreferrer"
               className="group relative block overflow-hidden border-t border-ink/10 last:border-b"
             >
               <span
+                data-curtain
                 aria-hidden="true"
-                className="absolute inset-0 origin-bottom scale-y-0 bg-cobalt transition-transform duration-300 ease-out group-hover:scale-y-100 motion-reduce:transition-none"
+                className="absolute inset-0 origin-bottom scale-y-0 bg-cobalt"
               />
               <div className="relative grid grid-cols-1 gap-4 px-2 py-10 sm:grid-cols-[1fr_auto] sm:items-start sm:gap-10">
                 <div>
                   <h3 className="flex items-baseline gap-3 text-[clamp(1.75rem,4vw,2.75rem)] font-extrabold tracking-tight text-ink transition-colors duration-300 group-hover:text-white">
                     {project.title}
-                    <span
-                      aria-hidden="true"
-                      className="text-xl text-cobalt transition-all duration-300 group-hover:translate-x-1 group-hover:text-white"
-                    >
-                      ↗
-                    </span>
+                    <Arrow dir="out" className="text-xl text-cobalt transition-colors duration-300 group-hover:text-white" />
                   </h3>
                   <p className="mt-2 max-w-[62ch] text-[15px] leading-relaxed text-muted transition-colors duration-300 group-hover:text-frost">
                     {project.description}

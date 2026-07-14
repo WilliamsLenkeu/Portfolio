@@ -18,6 +18,8 @@
 
 html {
   scroll-behavior: smooth;
+  scrollbar-width: thin;
+  scrollbar-color: #1533d9 rgb(var(--paper));
 }
 
 body {
@@ -25,6 +27,50 @@ body {
   background-color: rgb(var(--paper));
   color: rgb(var(--ink));
   font-family: "Schibsted Grotesk", system-ui, sans-serif;
+}
+
+/* Reveal thème : les deux snapshots coexistent, clip circulaire sur le nouveau */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+::view-transition-old(root) {
+  z-index: 1;
+}
+
+::view-transition-new(root) {
+  z-index: 2;
+}
+
+/* Flèches typographiques — nudge au hover du lien parent */
+.arrow-hint {
+  display: inline-block;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  a:hover .arrow-hint--out,
+  a:focus-visible .arrow-hint--out,
+  .group:hover .arrow-hint--out,
+  .group:focus-within .arrow-hint--out {
+    transform: translate(0.22em, -0.22em);
+  }
+
+  a:hover .arrow-hint--down,
+  a:focus-visible .arrow-hint--down,
+  .group:hover .arrow-hint--down,
+  .group:focus-within .arrow-hint--down {
+    transform: translateY(0.22em);
+  }
+
+  a:hover .arrow-hint--up,
+  a:focus-visible .arrow-hint--up,
+  .group:hover .arrow-hint--up,
+  .group:focus-within .arrow-hint--up {
+    transform: translateY(-0.22em);
+  }
 }
 
 h1,
@@ -39,7 +85,8 @@ h3 {
 }
 
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 10px;
+  height: 10px;
 }
 
 ::-webkit-scrollbar-track {
@@ -47,12 +94,17 @@ h3 {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgb(var(--muted) / 0.4);
-  border-radius: 4px;
+  background: #1533d9;
+  border: 2px solid rgb(var(--paper));
+  border-radius: 999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #1533d9;
+  background: #0f26a8;
+}
+
+::-webkit-scrollbar-corner {
+  background: rgb(var(--paper));
 }
 
 :focus-visible {
