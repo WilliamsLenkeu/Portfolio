@@ -1,19 +1,13 @@
 import { useLayoutEffect, useRef } from "react";
 import { gsap, prefersReducedMotion } from "./gsap";
 
-/**
- * Révélation au scroll via GSAP ScrollTrigger.
- * Contenu visible par défaut (pas de blank si JS/ST absent).
- * stagger > 0 : anime les enfants directs.
- */
+/** Fade simple pour blocs non textuels (stats, listes, etc.). */
 export const useReveal = ({
-  y = 20,
-  duration = 0.7,
+  duration = 0.5,
   stagger = 0,
   delay = 0,
-  blur = 0,
-  ease = "power4.out",
-  start = "top 88%",
+  ease = "power2.out",
+  start = "top 90%",
 } = {}) => {
   const ref = useRef(null);
 
@@ -22,37 +16,28 @@ export const useReveal = ({
     if (!el) return;
     const targets = stagger > 0 ? Array.from(el.children) : el;
     if (!targets || (Array.isArray(targets) && targets.length === 0)) return;
-
     if (prefersReducedMotion()) return;
 
-    const from = { opacity: 0, y };
-    const to = {
-      opacity: 1,
-      y: 0,
+    const tween = gsap.from(targets, {
+      autoAlpha: 0,
       duration,
       delay,
       ease,
       stagger: stagger || 0,
-      immediateRender: false,
       scrollTrigger: {
         trigger: el,
         start,
         toggleActions: "play none none none",
+        once: true,
       },
-    };
-
-    if (blur > 0) {
-      from.filter = `blur(${blur}px)`;
-      to.filter = "blur(0px)";
-    }
-
-    const tween = gsap.fromTo(targets, from, to);
+    });
 
     return () => {
       tween.scrollTrigger?.kill();
       tween.kill();
+      gsap.set(targets, { clearProps: "opacity,visibility" });
     };
-  }, [y, duration, stagger, delay, blur, ease, start]);
+  }, [duration, stagger, delay, ease, start]);
 
   return ref;
 };

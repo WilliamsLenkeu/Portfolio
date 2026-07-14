@@ -1,8 +1,8 @@
 import React, { useLayoutEffect, useRef } from "react";
 import avatarImage from "../../Assets/avatar.webp";
 import cvPDF from "../../Assets/curriculum_vitae.pdf";
-import MagneticButton from "../../components/ui/MagneticButton";
-import { gsap, prefersReducedMotion } from "../../lib/gsap";
+import Arrow from "../../components/ui/Arrow";
+import { gsap, SplitText, prefersReducedMotion } from "../../lib/gsap";
 import { useGithubStats, USERNAME_GITHUB } from "../../lib/useGithubStats";
 
 const Hero = () => {
@@ -14,59 +14,66 @@ const Hero = () => {
 
   useLayoutEffect(() => {
     const section = sectionRef.current;
-    if (!section) return;
+    const nameEl = nameRef.current;
+    if (!section || !nameEl) return;
 
-    const lines = nameRef.current.querySelectorAll(".name-line");
     const fadeItems = section.querySelectorAll("[data-hero-fade]");
+    const rail = section.querySelector("[data-hero-rail]");
 
     if (prefersReducedMotion()) {
-      gsap.set(lines, { clipPath: "inset(0% 0% 0% 0%)", opacity: 1, y: 0 });
       gsap.set(portraitRef.current, { clipPath: "inset(0% 0% 0% 0%)" });
-      gsap.set(fadeItems, { opacity: 1, y: 0 });
-      const rail = section.querySelector("[data-hero-rail]");
-      if (rail) gsap.set(rail, { opacity: 1, y: 0 });
+      gsap.set(fadeItems, { autoAlpha: 1 });
+      if (rail) gsap.set(rail, { autoAlpha: 1 });
       return;
     }
 
-    const rail = section.querySelector("[data-hero-rail]");
+    let split;
+    const ctx = gsap.context(() => {
+      gsap.set(portraitRef.current, { clipPath: "inset(0% 0% 100% 0%)" });
+      gsap.set(fadeItems, { autoAlpha: 0 });
+      if (rail) gsap.set(rail, { autoAlpha: 0 });
 
-    gsap.set(lines, { clipPath: "inset(0% 0% 100% 0%)", opacity: 0, y: 20 });
-    gsap.set(portraitRef.current, { clipPath: "inset(0% 0% 100% 0%)" });
-    gsap.set(fadeItems, { opacity: 0, y: 16 });
-    if (rail) gsap.set(rail, { opacity: 0, y: 24 });
+      const tl = gsap.timeline({ delay: 0.1 });
 
-    const tl = gsap.timeline({ delay: 0.12 });
-    tl.to(fadeItems[0], { opacity: 1, y: 0, duration: 0.45, ease: "power3.out" });
-    tl.to(
-      lines,
-      { clipPath: "inset(0% 0% 0% 0%)", opacity: 1, y: 0, duration: 0.95, ease: "power4.out", stagger: 0.11 },
-      "-=0.25"
-    );
-    tl.to(
-      portraitRef.current,
-      { clipPath: "inset(0% 0% 0% 0%)", duration: 1.15, ease: "power4.inOut" },
-      "-=0.95"
-    );
-    tl.to(
-      Array.from(fadeItems).slice(1),
-      { opacity: 1, y: 0, duration: 0.5, ease: "power3.out", stagger: 0.09 },
-      "-=0.55"
-    );
-    if (rail) {
-      tl.to(rail, { y: 0, opacity: 1, duration: 0.55, ease: "power3.out" }, "-=0.35");
-    }
+      tl.to(fadeItems[0], { autoAlpha: 1, duration: 0.4, ease: "power2.out" });
 
-    // Parallaxe discrète du portrait au scroll
-    const parallax = gsap.to(portraitImgRef.current, {
-      yPercent: 8,
-      ease: "none",
-      scrollTrigger: { trigger: section, start: "top top", end: "bottom top", scrub: true },
-    });
+      split = SplitText.create(nameEl, {
+        type: "words,lines",
+        mask: "lines",
+        aria: "auto",
+        onSplit(self) {
+          tl.from(
+            self.words,
+            { yPercent: 110, duration: 0.75, stagger: 0.08, ease: "power2.out" },
+            "-=0.15"
+          );
+        },
+      });
+
+      tl.to(
+        portraitRef.current,
+        { clipPath: "inset(0% 0% 0% 0%)", duration: 1, ease: "power2.inOut" },
+        "-=0.7"
+      );
+      tl.to(
+        Array.from(fadeItems).slice(1),
+        { autoAlpha: 1, duration: 0.45, ease: "power2.out", stagger: 0.08 },
+        "-=0.5"
+      );
+      if (rail) {
+        tl.to(rail, { autoAlpha: 1, duration: 0.4, ease: "power2.out" }, "-=0.25");
+      }
+
+      gsap.to(portraitImgRef.current, {
+        yPercent: 8,
+        ease: "none",
+        scrollTrigger: { trigger: section, start: "top top", end: "bottom top", scrub: true },
+      });
+    }, section);
 
     return () => {
-      tl.kill();
-      parallax.scrollTrigger?.kill();
-      parallax.kill();
+      split?.revert?.();
+      ctx.revert();
     };
   }, []);
 
@@ -86,8 +93,8 @@ const Hero = () => {
             ref={nameRef}
             className="mt-6 text-[clamp(3.5rem,9.5vw,6rem)] font-extrabold leading-[0.98] tracking-[-0.02em] lg:-mr-28"
           >
-            <span className="name-line block">Williams</span>
-            <span className="name-line block">
+            <span className="block">Williams</span>
+            <span className="block">
               Lenkeu<span className="text-frost dark:text-cobalt">.</span>
             </span>
           </h1>
@@ -97,20 +104,20 @@ const Hero = () => {
             Toute la chaîne, prouvée par du code réel.
           </p>
 
-          <div data-hero-fade className="mt-10 flex flex-wrap items-center gap-6">
-            <MagneticButton
-              as="a"
+          <div data-hero-fade className="mt-10 flex flex-wrap items-baseline gap-x-8 gap-y-3">
+            <a
               href="mailto:williamslenkeu.u@gmail.com"
-              className="inline-flex rounded-full bg-white px-6 py-3 text-sm font-medium text-cobalt transition-transform duration-200 active:scale-95 dark:bg-cobalt dark:text-white"
+              className="text-base font-semibold text-white underline decoration-white/40 decoration-2 underline-offset-8 transition-colors duration-200 hover:decoration-white"
             >
               Me contacter
-            </MagneticButton>
+            </a>
             <a
               href={cvPDF}
               download="williams-lenkeu-cv.pdf"
-              className="text-sm text-white underline underline-offset-4 transition-colors hover:text-frost"
+              className="group inline-flex items-baseline gap-1.5 font-mono text-xs tracking-wide text-frost transition-colors duration-200 hover:text-white"
             >
-              Télécharger le CV
+              CV
+              <Arrow dir="down" />
             </a>
           </div>
         </div>

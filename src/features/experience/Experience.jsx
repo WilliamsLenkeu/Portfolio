@@ -100,47 +100,22 @@ const Ledger = ({ label, rows }) => {
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: wrap,
-        start: "top 88%",
+        start: "top 90%",
         toggleActions: "play none none none",
+        once: true,
       },
     });
 
     if (ruleRef.current) {
-      tl.fromTo(
-        ruleRef.current,
-        { scaleX: 0 },
-        {
-          scaleX: 1,
-          duration: 0.7,
-          ease: "power3.inOut",
-          transformOrigin: "left center",
-          immediateRender: false,
-        }
-      );
+      gsap.set(ruleRef.current, { scaleX: 0, transformOrigin: "left center" });
+      tl.to(ruleRef.current, { scaleX: 1, duration: 0.55, ease: "power2.out" });
     }
 
     if (header) {
-      tl.fromTo(
-        header,
-        { opacity: 0, y: 8 },
-        { opacity: 1, y: 0, duration: 0.4, ease: "power3.out", immediateRender: false },
-        "-=0.4"
-      );
+      tl.from(header, { autoAlpha: 0, duration: 0.4, ease: "power2.out" }, "-=0.3");
     }
 
-    tl.fromTo(
-      items,
-      { opacity: 0, y: 16 },
-      {
-        opacity: 1,
-        y: 0,
-        duration: 0.5,
-        ease: "power4.out",
-        stagger: 0.06,
-        immediateRender: false,
-      },
-      "-=0.2"
-    );
+    tl.from(items, { autoAlpha: 0, duration: 0.4, ease: "power2.out", stagger: 0.05 }, "-=0.2");
 
     return () => {
       tl.scrollTrigger?.kill();

@@ -2,6 +2,7 @@ import React, { useLayoutEffect, useRef } from "react";
 import cvPDF from "../../Assets/curriculum_vitae.pdf";
 import Arrow from "../../components/ui/Arrow";
 import { gsap, prefersReducedMotion } from "../../lib/gsap";
+import { useSplitText } from "../../lib/useSplitText";
 
 const footerLinks = [
   { name: "GitHub", url: "https://github.com/WilliamsLenkeu" },
@@ -10,74 +11,34 @@ const footerLinks = [
 
 const Contact = () => {
   const year = new Date().getFullYear();
-  const sectionRef = useRef(null);
-  const emailRef = useRef(null);
-  const introRef = useRef(null);
-  const noteRef = useRef(null);
+  const introRef = useSplitText({ stagger: 0.04, start: "top 80%" });
+  const emailRef = useSplitText({ stagger: 0.02, duration: 0.7, delay: 0.05, start: "top 80%" });
+  const noteRef = useSplitText({ stagger: 0.03, delay: 0.1, start: "top 80%" });
   const footerRef = useRef(null);
 
   useLayoutEffect(() => {
-    const section = sectionRef.current;
-    if (!section || prefersReducedMotion()) return;
+    const footer = footerRef.current;
+    if (!footer || prefersReducedMotion()) return;
 
-    const tl = gsap.timeline({
+    const tween = gsap.from(footer, {
+      autoAlpha: 0,
+      duration: 0.45,
+      ease: "power2.out",
       scrollTrigger: {
-        trigger: section,
-        start: "top 70%",
-        toggleActions: "play none none none",
+        trigger: footer,
+        start: "top 95%",
+        once: true,
       },
     });
 
-    if (introRef.current) {
-      tl.fromTo(
-        introRef.current,
-        { opacity: 0, y: 14 },
-        { opacity: 1, y: 0, duration: 0.5, ease: "power3.out", immediateRender: false }
-      );
-    }
-
-    if (emailRef.current) {
-      tl.fromTo(
-        emailRef.current,
-        { clipPath: "inset(0 100% 0 0)", opacity: 0 },
-        {
-          clipPath: "inset(0 0% 0 0)",
-          opacity: 1,
-          duration: 1,
-          ease: "power4.inOut",
-          immediateRender: false,
-        },
-        "-=0.2"
-      );
-    }
-
-    if (noteRef.current) {
-      tl.fromTo(
-        noteRef.current,
-        { opacity: 0, y: 12 },
-        { opacity: 1, y: 0, duration: 0.5, ease: "power3.out", immediateRender: false },
-        "-=0.4"
-      );
-    }
-
-    if (footerRef.current) {
-      tl.fromTo(
-        footerRef.current,
-        { opacity: 0 },
-        { opacity: 1, duration: 0.45, ease: "power2.out", immediateRender: false },
-        "-=0.2"
-      );
-    }
-
     return () => {
-      tl.scrollTrigger?.kill();
-      tl.kill();
+      tween.scrollTrigger?.kill();
+      tween.kill();
     };
   }, []);
 
   return (
     <section
-      ref={sectionRef}
       id="contact"
       className="on-cobalt surface-cobalt border-t border-transparent text-white dark:border-white/10"
     >

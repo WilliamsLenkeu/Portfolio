@@ -54,22 +54,17 @@ const Projects = () => {
     rows.forEach((row) => {
       const curtain = row.querySelector("[data-curtain]");
 
-      const enter = gsap.fromTo(
-        row,
-        { opacity: 0, y: 22 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.65,
-          ease: "power4.out",
-          immediateRender: false,
-          scrollTrigger: {
-            trigger: row,
-            start: "top 90%",
-            toggleActions: "play none none none",
-          },
-        }
-      );
+      const enter = gsap.from(row, {
+        autoAlpha: 0,
+        duration: 0.5,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: row,
+          start: "top 92%",
+          toggleActions: "play none none none",
+          once: true,
+        },
+      });
       tweens.push(enter);
 
       if (!curtain) return;

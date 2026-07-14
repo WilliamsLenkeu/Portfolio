@@ -13,8 +13,8 @@ const Github = () => {
   const [chartError, setChartError] = useState(false);
   const languages = data?.languages ?? [];
 
-  const statsRef = useReveal({ stagger: 0.1 });
-  const chartRef = useReveal({ y: 18, blur: 6 });
+  const statsRef = useReveal({ stagger: 0.08 });
+  const chartRef = useReveal();
   const langBlockRef = useRef(null);
   const barRef = useRef(null);
 
@@ -25,39 +25,19 @@ const Github = () => {
 
     const legend = block.querySelectorAll("[data-lang]");
 
+    gsap.set(bar, { scaleX: 0, transformOrigin: "left center" });
+
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: block,
         start: "top 90%",
         toggleActions: "play none none none",
+        once: true,
       },
     });
 
-    tl.fromTo(
-      bar,
-      { scaleX: 0 },
-      {
-        scaleX: 1,
-        duration: 0.95,
-        ease: "power3.inOut",
-        transformOrigin: "left center",
-        immediateRender: false,
-      }
-    );
-
-    tl.fromTo(
-      legend,
-      { opacity: 0, y: 8 },
-      {
-        opacity: 1,
-        y: 0,
-        duration: 0.4,
-        ease: "power3.out",
-        stagger: 0.06,
-        immediateRender: false,
-      },
-      "-=0.35"
-    );
+    tl.to(bar, { scaleX: 1, duration: 0.7, ease: "power2.out" });
+    tl.from(legend, { autoAlpha: 0, duration: 0.35, ease: "power2.out", stagger: 0.05 }, "-=0.25");
 
     return () => {
       tl.scrollTrigger?.kill();

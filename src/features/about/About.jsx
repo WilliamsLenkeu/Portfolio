@@ -1,7 +1,7 @@
-import React, { useLayoutEffect, useRef } from "react";
+import React from "react";
 import CountUp from "../../components/ui/CountUp";
-import { gsap, prefersReducedMotion } from "../../lib/gsap";
 import { useReveal } from "../../lib/useReveal";
+import { useSplitText } from "../../lib/useSplitText";
 
 const facts = [
   { value: 5, label: "Années d'expérience" },
@@ -10,37 +10,9 @@ const facts = [
 ];
 
 const About = () => {
-  const statementRef = useRef(null);
-  const proseRef = useReveal({ stagger: 0.12, blur: 4 });
-  const factsRef = useReveal({ stagger: 0.12, y: 16 });
-
-  useLayoutEffect(() => {
-    const el = statementRef.current;
-    if (!el || prefersReducedMotion()) return;
-
-    const tween = gsap.fromTo(
-      el,
-      { clipPath: "inset(0 0 100% 0)", y: 20, opacity: 0 },
-      {
-        clipPath: "inset(0 0 0% 0)",
-        y: 0,
-        opacity: 1,
-        duration: 0.95,
-        ease: "power4.out",
-        immediateRender: false,
-        scrollTrigger: {
-          trigger: el,
-          start: "top 85%",
-          toggleActions: "play none none none",
-        },
-      }
-    );
-
-    return () => {
-      tween.scrollTrigger?.kill();
-      tween.kill();
-    };
-  }, []);
+  const statementRef = useSplitText({ stagger: 0.035, duration: 0.7 });
+  const proseRef = useReveal({ stagger: 0.1 });
+  const factsRef = useReveal({ stagger: 0.08 });
 
   return (
     <section id="about" className="bg-paper">
