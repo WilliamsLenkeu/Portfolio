@@ -1,36 +1,39 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 
 <head>
   <meta charset="utf-8" />
-  <link rel="icon" href="%PUBLIC_URL%/favicon.png" />
+  <link rel="icon" type="image/webp" href="%PUBLIC_URL%/favicon.webp" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="theme-color" content="#000000" />
-  <meta name="description" content="Web site created using create-react-app" />
+  <meta name="theme-color" content="#1533d9" />
   <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
   <title>Williams Lenkeu | Portfolio</title>
-  <meta name="description" content="Self Developed personal website build with React.js">
+  <script>
+    (function () {
+      var t = localStorage.getItem("theme");
+      if (t === "dark" || (!t && window.matchMedia("(prefers-color-scheme: dark)").matches)) {
+        document.documentElement.classList.add("dark");
+      }
+    })();
+  </script>
+  <meta name="description" content="Portfolio de Williams Lenkeu, développeur Full Stack.">
 
   <!-- Google / Search Engine Tags -->
   <meta itemprop="name" content="Williams Lenkeu | Portfolio">
-  <meta itemprop="description" content="Self Developed personal website build with React.js">
-  <meta itemprop="image"
-    content="https://raw.githubusercontent.com/soumyajit4419/Portfolio/master/Images/readme-img.png?token=AK7VCIF5RYEUZZAURELPTAC76U6AK">
+  <meta itemprop="description" content="Portfolio de Williams Lenkeu, développeur Full Stack.">
+  <meta itemprop="image" content="%PUBLIC_URL%/favicon.webp">
 
   <!-- Facebook Meta Tags -->
-  <meta property="og:url" content="https://soumyajit.vercel.app">
   <meta property="og:type" content="website">
   <meta property="og:title" content="Williams Lenkeu | Portfolio">
-  <meta property="og:description" content="Self Developed personal website build with React.js">
-  <meta property="og:image"
-    content="https://raw.githubusercontent.com/soumyajit4419/Portfolio/master/Images/readme-img.png?token=AK7VCIF5RYEUZZAURELPTAC76U6AK">
+  <meta property="og:description" content="Portfolio de Williams Lenkeu, développeur Full Stack.">
+  <meta property="og:image" content="%PUBLIC_URL%/favicon.webp">
 
   <!-- Twitter Meta Tags -->
-  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Williams Lenkeu | Portfolio">
-  <meta name="twitter:description" content="Self Developed personal website build with React.js">
-  <meta name="twitter:image"
-    content="https://raw.githubusercontent.com/soumyajit4419/Portfolio/master/Images/readme-img.png?token=AK7VCIF5RYEUZZAURELPTAC76U6AK">
+  <meta name="twitter:description" content="Portfolio de Williams Lenkeu, développeur Full Stack.">
+  <meta name="twitter:image" content="%PUBLIC_URL%/favicon.webp">
 </head>
 
 <body>

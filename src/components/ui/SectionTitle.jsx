@@ -1,50 +1,44 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useLayoutEffect, useRef } from "react";
+import { gsap, prefersReducedMotion } from "../../lib/gsap";
 
-const SectionTitle = ({ 
-  children, 
-  subtitle, 
-  align = 'center',
-  className = '' 
-}) => {
-  const alignments = {
-    left: 'text-left',
-    center: 'text-center',
-    right: 'text-right',
-  };
-  
+const SectionTitle = ({ children, subtitle, className = "" }) => {
+  const ref = useRef(null);
+
+  useLayoutEffect(() => {
+    if (!ref.current) return;
+
+    if (prefersReducedMotion()) {
+      gsap.set(ref.current, { opacity: 1, y: 0 });
+      return;
+    }
+
+    gsap.set(ref.current, { opacity: 0, y: 16 });
+    const tween = gsap.to(ref.current, {
+      opacity: 1,
+      y: 0,
+      duration: 0.6,
+      ease: "power2.out",
+      scrollTrigger: {
+        trigger: ref.current,
+        start: "top 85%",
+        toggleActions: "play none none none",
+      },
+    });
+
+    return () => {
+      tween.scrollTrigger?.kill();
+      tween.kill();
+    };
+  }, []);
+
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.6 }}
-      className={`mb-16 ${alignments[align]} ${className}`}
-    >
-      <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
+    <div ref={ref} className={`mb-12 ${className}`}>
+      <h2 className="text-[clamp(2rem,4.5vw,3rem)] font-extrabold tracking-tight text-ink">
         {children}
+        <span className="text-cobalt">.</span>
       </h2>
-      {subtitle && (
-        <motion.p
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="text-gray-400 text-lg max-w-2xl mx-auto"
-        >
-          {subtitle}
-        </motion.p>
-      )}
-      <motion.div
-        initial={{ width: 0 }}
-        whileInView={{ width: '100px' }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.8, delay: 0.3 }}
-        className={`h-1 bg-gradient-to-r from-accent via-accent-purple to-accent-pink rounded-full mt-4 ${
-          align === 'center' ? 'mx-auto' : align === 'right' ? 'ml-auto' : ''
-        }`}
-      />
-    </motion.div>
+      {subtitle && <p className="mt-3 max-w-[60ch] text-[15px] leading-relaxed text-muted">{subtitle}</p>}
+    </div>
   );
 };
 

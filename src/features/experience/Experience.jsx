@@ -1,0 +1,137 @@
+import React from "react";
+import SectionTitle from "../../components/ui/SectionTitle";
+import { useReveal } from "../../lib/useReveal";
+
+const experiences = [
+  {
+    period: "2025",
+    detail: "Depuis nov.",
+    title: "Développeur Backend & Consultant",
+    company: "Farmease",
+    description:
+      "Backend de FarmEase, application de gestion d'exploitations agricoles : suivi d'élevage, finances, alertes intelligentes, rapports et mode hors ligne.",
+  },
+  {
+    period: "2025 — 26",
+    detail: "Nov — Mai",
+    title: "Développeur IT",
+    company: "Brain-Booster",
+    description: "Développement logiciel et support technique.",
+  },
+  {
+    period: "2024 — 25",
+    detail: "Déc — Juin",
+    title: "Développeur Fullstack",
+    company: "Smart Service Hub",
+    description: "Application mobile Flutter d'aide à l'orientation académique, backend NestJS.",
+  },
+  {
+    period: "2024",
+    detail: "Avril — Août",
+    title: "Assistant service courriel",
+    company: "Ministère de l'enseignement supérieur",
+    description: "Gestion des communications et support administratif.",
+  },
+  {
+    period: "2023",
+    detail: "Juin — Sept",
+    title: "Développeur Frontend Mobile",
+    company: "SKLF Group",
+    description: "Application mobile de communication en temps réel, développée en Flutter.",
+  },
+  {
+    period: "2023",
+    detail: "Avril — Juin",
+    title: "Assistant service courriel",
+    company: "Ministère de l'enseignement supérieur",
+    description: "Gestion des communications et support administratif.",
+  },
+  {
+    period: "2022",
+    detail: "Juil — Sept",
+    title: "Développeur Back-end",
+    company: "IccSoft",
+    description: "Application web de recrutement avec Django, optimisation des flux de travail.",
+  },
+  {
+    period: "2021",
+    detail: "Juin — Août",
+    title: "Développeur Web",
+    company: "SKLF Group",
+    description: "Site web responsive et gestion des inscriptions aux formations.",
+  },
+];
+
+const education = [
+  {
+    period: "2022 — 2025",
+    detail: "",
+    title: "Licence Pro. Informatique, ICT4D",
+    company: "Université de Yaoundé I",
+    description: "Ingénieur des Travaux Informatiques, obtenue en juillet 2025.",
+  },
+  {
+    period: "2021 — 2022",
+    detail: "",
+    title: "Baccalauréat Série TI",
+    company: "Collège La Retraite",
+    description: "Algorithmique, programmation avancée, projets web scolaires.",
+  },
+  {
+    period: "2020 — 2021",
+    detail: "",
+    title: "Probatoire Série TI",
+    company: "Collège Privé Laïc Pythagore",
+    description: "",
+  },
+];
+
+const Ledger = ({ label, rows }) => {
+  const rowsRef = useReveal({ stagger: 0.07, y: 14 });
+
+  return (
+    <div>
+      <div className="flex items-baseline justify-between border-b-2 border-ink pb-3">
+        <h3 className="text-sm font-bold uppercase tracking-wide text-ink">{label}</h3>
+        <span className="font-mono text-xs text-muted">{rows.length} entrées</span>
+      </div>
+      <div ref={rowsRef}>
+        {rows.map((item) => (
+          <div
+            key={`${item.title}-${item.period}`}
+            className="grid grid-cols-[72px_1fr] gap-4 border-b border-ink/10 py-6 transition-colors duration-200 hover:bg-cobalt/[0.04] sm:grid-cols-[110px_260px_1fr] sm:gap-8"
+          >
+            <div>
+              <div className="font-mono text-sm font-medium text-cobalt">{item.period}</div>
+              {item.detail && <div className="mt-0.5 font-mono text-[11px] text-muted">{item.detail}</div>}
+            </div>
+            <div>
+              <h4 className="text-base font-semibold leading-snug text-ink">{item.title}</h4>
+              <p className="mt-0.5 text-sm text-muted">{item.company}</p>
+            </div>
+            <p className="col-span-2 max-w-[58ch] text-sm leading-relaxed text-muted sm:col-span-1 sm:pt-0.5">
+              {item.description}
+            </p>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+const Experience = () => {
+  return (
+    <section id="experience" className="bg-paper">
+      <div className="mx-auto max-w-page px-6 py-28">
+        <SectionTitle>Parcours</SectionTitle>
+
+        <div className="space-y-16">
+          <Ledger label="Expérience" rows={experiences} />
+          <Ledger label="Formation" rows={education} />
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default Experience;

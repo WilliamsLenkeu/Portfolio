@@ -1,120 +1,90 @@
-import React, { useState, useMemo } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import ProjectCard from './ProjectCard';
-import ProjectFilter from '../../components/ui/ProjectFilter';
-import SectionTitle from '../../components/ui/SectionTitle';
+import React from "react";
+import SectionTitle from "../../components/ui/SectionTitle";
+import { useReveal } from "../../lib/useReveal";
+
+const projects = [
+  {
+    title: "FarmEase",
+    description:
+      "Application de gestion d'exploitations agricoles en Afrique : suivi d'élevage, finances, alertes intelligentes, rapports et mode hors ligne. Développeur backend et consultant sur la plateforme.",
+    url: "https://farmease.io",
+    tags: ["Backend", "API", "Offline-first", "Mission client"],
+  },
+  {
+    title: "EduManage",
+    description:
+      "Application de gestion scolaire pour le système éducatif camerounais : desktop (Tauri) et PWA, fonctionnement hors ligne avec synchronisation multi-appareils.",
+    url: "https://github.com/WilliamsLenkeu/EduManage",
+    tags: ["React", "TypeScript", "Rust", "Tauri", "MongoDB"],
+  },
+  {
+    title: "Fidelity",
+    description:
+      "API de gestion d'un programme de fidélité client : authentification par jeton et back-office pour administrer clients et services.",
+    url: "https://github.com/WilliamsLenkeu/backend-fidelity",
+    tags: ["Laravel", "Sanctum", "TypeScript"],
+  },
+  {
+    title: "Kamer Forge",
+    description:
+      "Landing page à accès restreint par phrase secrète, avec back-office d'administration et notifications par email.",
+    url: "https://github.com/WilliamsLenkeu/Kamer_forge_",
+    tags: ["Astro", "MongoDB", "Resend"],
+  },
+  {
+    title: "Store Dépôts",
+    description:
+      "Application de suivi de dépôts et de contributeurs, avec export des données en CSV, Excel et PDF.",
+    url: "https://github.com/WilliamsLenkeu/store_",
+    tags: ["Next.js", "MongoDB", "PostgreSQL"],
+  },
+];
 
 const Projects = () => {
-  const [activeCategory, setActiveCategory] = useState('Tous');
-
-  const projects = useMemo(() => [
-    {
-      title: "Orientation Académique App",
-      description: "Application mobile d'aide à l'orientation académique. Solution complète incluant une interface mobile intuitive et un backend robuste.",
-      image: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=800&q=80",
-      github: "#",
-      demo: "#",
-      tags: ["Flutter", "NestJS", "Mobile"],
-      category: "Mobile"
-    },
-    {
-      title: "Communication App",
-      description: "Application mobile de communication en temps réel développée avec Flutter pour faciliter les échanges au sein d'une organisation.",
-      image: "https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=800&q=80",
-      github: "#",
-      demo: "#",
-      tags: ["Flutter", "Dart", "Mobile"],
-      category: "Mobile"
-    },
-    {
-      title: "Recruitment Platform",
-      description: "Application web de gestion du processus de recrutement. Optimisation des flux de travail et gestion des candidats.",
-      image: "https://images.unsplash.com/photo-1586281380349-632531db7ed4?w=800&q=80",
-      github: "#",
-      demo: "#",
-      tags: ["Django", "Python", "Web"],
-      category: "Web"
-    },
-    {
-      title: "Gestion Inscriptions",
-      description: "Plateforme web pour la gestion des inscriptions aux formations. Interface responsive et tableau de bord administratif.",
-      image: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&q=80",
-      github: "#",
-      demo: "#",
-      tags: ["Web", "Responsive", "Management"],
-      category: "Web"
-    },
-    {
-      title: "Portfolio Personnel",
-      description: "Mon site personnel construit avec React, Tailwind CSS et Framer Motion. Il présente mes projets et mes compétences.",
-      image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80",
-      github: "https://github.com/WilliamsLenkeu/Portfolio",
-      demo: "https://williamslenkeu.com",
-      tags: ["React", "Tailwind", "Framer Motion"],
-      category: "Web"
-    }
-  ], []);
-
-  // Extraire toutes les catégories uniques
-  const categories = useMemo(() => {
-    const uniqueCategories = [...new Set(projects.map(p => p.category))];
-    return ['Tous', ...uniqueCategories];
-  }, [projects]);
-
-  // Filtrer les projets selon la catégorie active
-  const filteredProjects = useMemo(() => {
-    if (activeCategory === 'Tous') return projects;
-    return projects.filter(p => p.category === activeCategory);
-  }, [activeCategory, projects]);
+  const listRef = useReveal({ stagger: 0.08 });
 
   return (
-    <section className="py-20 min-h-screen relative overflow-hidden">
-      {/* Fond avec gradient animé */}
-      <div className="absolute inset-0 -z-10">
-        <div className="absolute top-0 right-0 w-96 h-96 bg-accent-purple/10 rounded-full blur-3xl" />
-        <div className="absolute bottom-0 left-0 w-96 h-96 bg-accent-pink/10 rounded-full blur-3xl" />
-      </div>
-
-      <div className="container mx-auto px-4">
-        <SectionTitle subtitle="Découvrez mes réalisations et projets récents">
-          Mes <span className="gradient-text-animated">Projets</span>
+    <section id="projects" className="bg-paper">
+      <div className="mx-auto max-w-page px-6 py-28">
+        <SectionTitle subtitle="Missions client et projets personnels, du prototype à l'application en production. Chaque titre mène au code source ou au produit en ligne.">
+          Projets
         </SectionTitle>
 
-        {/* Filtre de catégories */}
-        <ProjectFilter
-          categories={categories}
-          activeCategory={activeCategory}
-          onCategoryChange={setActiveCategory}
-        />
-
-        {/* Grille de projets */}
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={activeCategory}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.3 }}
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
-          >
-            {filteredProjects.map((project, index) => (
-              <ProjectCard key={index} project={project} index={index} />
-            ))}
-          </motion.div>
-        </AnimatePresence>
-
-        {/* Message si aucun projet */}
-        {filteredProjects.length === 0 && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="text-center py-20"
-          >
-            <p className="text-gray-400 text-lg">
-              Aucun projet dans cette catégorie pour le moment.
-            </p>
-          </motion.div>
-        )}
+        <div ref={listRef}>
+          {projects.map((project) => (
+            <a
+              key={project.title}
+              href={project.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group relative block overflow-hidden border-t border-ink/10 last:border-b"
+            >
+              <span
+                aria-hidden="true"
+                className="absolute inset-0 origin-bottom scale-y-0 bg-cobalt transition-transform duration-300 ease-out group-hover:scale-y-100 motion-reduce:transition-none"
+              />
+              <div className="relative grid grid-cols-1 gap-4 px-2 py-10 sm:grid-cols-[1fr_auto] sm:items-start sm:gap-10">
+                <div>
+                  <h3 className="flex items-baseline gap-3 text-[clamp(1.75rem,4vw,2.75rem)] font-extrabold tracking-tight text-ink transition-colors duration-300 group-hover:text-white">
+                    {project.title}
+                    <span
+                      aria-hidden="true"
+                      className="text-xl text-cobalt transition-all duration-300 group-hover:translate-x-1 group-hover:text-white"
+                    >
+                      ↗
+                    </span>
+                  </h3>
+                  <p className="mt-2 max-w-[62ch] text-[15px] leading-relaxed text-muted transition-colors duration-300 group-hover:text-frost">
+                    {project.description}
+                  </p>
+                </div>
+                <p className="font-mono text-xs leading-6 text-muted transition-colors duration-300 group-hover:text-frost sm:max-w-[180px] sm:pt-2 sm:text-right">
+                  {project.tags.join(" · ")}
+                </p>
+              </div>
+            </a>
+          ))}
+        </div>
       </div>
     </section>
   );

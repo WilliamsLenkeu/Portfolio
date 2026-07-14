@@ -1,207 +1,254 @@
-import React, { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
-import { HiMenuAlt3, HiX } from 'react-icons/hi';
+import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { HiMenuAlt3, HiX, HiOutlineSun, HiOutlineMoon } from "react-icons/hi";
+import { gsap, ScrollTrigger, prefersReducedMotion } from "../../lib/gsap";
+import cvPDF from "../../Assets/curriculum_vitae.pdf";
+
+const links = [
+  { name: "Profil", href: "#about" },
+  { name: "Stack", href: "#stack" },
+  { name: "Projets", href: "#projects" },
+  { name: "Parcours", href: "#experience" },
+  { name: "Contact", href: "#contact" },
+];
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
-  const [scrollProgress, setScrollProgress] = useState(0);
-  const location = useLocation();
+  const [active, setActive] = useState("");
+  const [onCobalt, setOnCobalt] = useState(true);
+  const [dark, setDark] = useState(
+    () => typeof document !== "undefined" && document.documentElement.classList.contains("dark")
+  );
 
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrollTop = window.scrollY;
-      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-      const progress = (scrollTop / docHeight) * 100;
-      
-      setScrolled(scrollTop > 50);
-      setScrollProgress(progress);
-    };
-    
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+  const progressRef = useRef(null);
+  const listRef = useRef(null);
+  const pillRef = useRef(null);
+  const menuRef = useRef(null);
+
+  const toggleTheme = () => {
+    const next = !dark;
+    setDark(next);
+    document.documentElement.classList.toggle("dark", next);
+    localStorage.setItem("theme", next ? "dark" : "light");
+  };
+
+  // Barre de progression de lecture
+  useLayoutEffect(() => {
+    const bar = progressRef.current;
+    if (!bar) return;
+    gsap.set(bar, { scaleX: 0 });
+    const st = ScrollTrigger.create({
+      start: 0,
+      end: "max",
+      onUpdate: (self) => gsap.set(bar, { scaleX: self.progress }),
+    });
+    return () => st.kill();
   }, []);
 
-  const navLinks = [
-    { name: 'Accueil', path: '/' },
-    { name: 'À propos', path: '/about' },
-    { name: 'Projets', path: '/project' },
-    { name: 'CV', path: '/resume' },
-  ];
+  // Pastille de lien actif
+  useEffect(() => {
+    const pill = pillRef.current;
+    const list = listRef.current;
+    if (!pill || !list) return;
 
-  return (
-    <nav
-      className={`fixed w-full z-50 transition-all duration-300 ${
-        scrolled ? 'glass-strong shadow-lg shadow-black/10' : 'bg-transparent'
+    const link = list.querySelector(`a[href="${active}"]`);
+    if (!link) {
+      gsap.to(pill, { opacity: 0, duration: 0.2 });
+      return;
+    }
+    const li = link.parentElement;
+    gsap.to(pill, {
+      x: li.offsetLeft,
+      width: li.offsetWidth,
+      opacity: 1,
+      duration: prefersReducedMotion() ? 0 : 0.35,
+      ease: "power3.out",
+    });
+  }, [active]);
+
+  // Menu mobile
+  useEffect(() => {
+    const menu = menuRef.current;
+    if (!menu) return;
+    gsap.to(menu, {
+      height: isOpen ? "auto" : 0,
+      autoAlpha: isOpen ? 1 : 0,
+      duration: prefersReducedMotion() ? 0 : 0.4,
+      ease: "power3.inOut",
+    });
+  }, [isOpen]);
+
+  useEffect(() => {
+    const hero = document.querySelector("#hero");
+    if (!hero) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => setOnCobalt(entry.isIntersecting),
+      { rootMargin: "-64px 0px 0px 0px", threshold: 0 }
+    );
+    observer.observe(hero);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const sections = links.map((link) => document.querySelector(link.href)).filter(Boolean);
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) setActive(`#${entry.target.id}`);
+        });
+      },
+      { rootMargin: "-45% 0px -50% 0px", threshold: 0 }
+    );
+
+    sections.forEach((section) => observer.observe(section));
+    return () => observer.disconnect();
+  }, []);
+
+  const handleClick = (href) => {
+    setIsOpen(false);
+    document.querySelector(href)?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  const themeButton = (
+    <button
+      onClick={toggleTheme}
+      aria-label={dark ? "Activer le thème clair" : "Activer le thème sombre"}
+      className={`inline-flex h-8 w-8 items-center justify-center rounded-full transition-colors duration-200 ${
+        onCobalt ? "text-frost hover:bg-white/10 hover:text-white" : "text-muted hover:bg-ink/5 hover:text-ink"
       }`}
     >
-      {/* Barre de progression du scroll */}
-      <motion.div
-        className="absolute bottom-0 left-0 h-0.5 bg-gradient-to-r from-accent via-accent-purple to-accent-pink"
-        style={{ width: `${scrollProgress}%` }}
-        initial={{ width: 0 }}
-        animate={{ width: `${scrollProgress}%` }}
-        transition={{ duration: 0.1 }}
+      {dark ? <HiOutlineSun size={18} /> : <HiOutlineMoon size={18} />}
+    </button>
+  );
+
+  return (
+    <header
+      className={`fixed inset-x-0 top-0 z-50 transition-colors duration-300 ${
+        onCobalt ? "on-cobalt surface-cobalt" : "border-b border-ink/10 bg-paper/90 backdrop-blur-md"
+      }`}
+    >
+      <nav className="mx-auto flex h-16 max-w-page items-center justify-between px-6">
+        <a
+          href="#top"
+          onClick={(e) => {
+            e.preventDefault();
+            handleClick("#top");
+          }}
+          className={`font-mono text-base font-medium tracking-tight ${onCobalt ? "text-white" : "text-ink"}`}
+        >
+          WL<span className={onCobalt ? "text-frost" : "text-cobalt"}>·</span>
+        </a>
+
+        <ul ref={listRef} className="relative hidden items-center gap-1 md:flex">
+          <span
+            ref={pillRef}
+            aria-hidden="true"
+            className={`absolute inset-y-0 left-0 w-0 rounded-full opacity-0 ${
+              onCobalt ? "bg-white/15" : "bg-cobalt/10"
+            }`}
+          />
+          {links.map((link) => (
+            <li key={link.name} className="relative">
+              <a
+                href={link.href}
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleClick(link.href);
+                }}
+                className={`relative z-10 block px-3 py-2 text-sm transition-colors duration-200 ${
+                  onCobalt
+                    ? active === link.href
+                      ? "text-white"
+                      : "text-frost hover:text-white"
+                    : active === link.href
+                    ? "text-cobalt"
+                    : "text-muted hover:text-ink"
+                }`}
+              >
+                {link.name}
+              </a>
+            </li>
+          ))}
+          <li className="ml-3">
+            <a
+              href={cvPDF}
+              download="williams-lenkeu-cv.pdf"
+              className={`rounded-full border px-4 py-1.5 text-sm transition-colors duration-200 ${
+                onCobalt
+                  ? "border-white/40 text-white hover:border-white hover:bg-white/10"
+                  : "border-ink/20 text-ink hover:border-cobalt hover:text-cobalt"
+              }`}
+            >
+              CV
+            </a>
+          </li>
+          <li className="ml-1">{themeButton}</li>
+        </ul>
+
+        <div className="flex items-center gap-2 md:hidden">
+          {themeButton}
+          <button
+            onClick={() => setIsOpen((v) => !v)}
+            aria-label={isOpen ? "Fermer le menu" : "Ouvrir le menu"}
+            aria-expanded={isOpen}
+            className={onCobalt ? "text-white" : "text-ink"}
+          >
+            {isOpen ? <HiX size={22} /> : <HiMenuAlt3 size={22} />}
+          </button>
+        </div>
+      </nav>
+
+      <div
+        ref={progressRef}
+        className={`h-px w-full origin-left ${onCobalt ? "bg-white/60" : "bg-cobalt"}`}
       />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-20">
-          {/* Logo */}
-          <Link to="/" className="relative group">
-            <motion.div
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="text-2xl font-bold flex items-center gap-1"
-            >
-              <span className="gradient-text-animated text-3xl">WL</span>
-              <span className="text-accent text-3xl">.</span>
-            </motion.div>
-            <motion.div
-              className="absolute -bottom-1 left-0 h-0.5 bg-gradient-to-r from-accent to-accent-purple"
-              initial={{ width: 0 }}
-              whileHover={{ width: '100%' }}
-              transition={{ duration: 0.3 }}
-            />
-          </Link>
-
-          {/* Desktop Menu */}
-          <div className="hidden md:block">
-            <div className="ml-10 flex items-baseline space-x-1">
-              {navLinks.map((link, index) => (
-                <Link
-                  key={link.name}
-                  to={link.path}
-                  className="relative group"
-                >
-                  <motion.div
-                    initial={{ opacity: 0, y: -20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: index * 0.1 }}
-                    className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
-                      location.pathname === link.path
-                        ? 'text-accent'
-                        : 'text-gray-300 hover:text-white'
-                    }`}
-                  >
-                    {link.name}
-                    
-                    {/* Indicateur actif animé */}
-                    {location.pathname === link.path && (
-                      <motion.div
-                        layoutId="navbar-indicator"
-                        className="absolute inset-0 bg-gradient-to-r from-accent/20 to-accent-purple/20 rounded-lg -z-10 border border-accent/30"
-                        transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
-                      />
-                    )}
-                    
-                    {/* Effet hover */}
-                    <motion.div
-                      className="absolute inset-0 bg-white/5 rounded-lg -z-20 opacity-0 group-hover:opacity-100 transition-opacity"
-                    />
-                  </motion.div>
-                </Link>
-              ))}
-            </div>
-          </div>
-
-          {/* Mobile Menu Button */}
-          <div className="md:hidden">
-            <motion.button
-              whileTap={{ scale: 0.9 }}
-              onClick={() => setIsOpen(!isOpen)}
-              className="text-gray-300 hover:text-white focus:outline-none p-2 rounded-lg hover:bg-white/10 transition-colors relative"
-            >
-              <AnimatePresence mode="wait">
-                {isOpen ? (
-                  <motion.div
-                    key="close"
-                    initial={{ rotate: -90, opacity: 0 }}
-                    animate={{ rotate: 0, opacity: 1 }}
-                    exit={{ rotate: 90, opacity: 0 }}
-                    transition={{ duration: 0.2 }}
-                  >
-                    <HiX size={24} />
-                  </motion.div>
-                ) : (
-                  <motion.div
-                    key="menu"
-                    initial={{ rotate: 90, opacity: 0 }}
-                    animate={{ rotate: 0, opacity: 1 }}
-                    exit={{ rotate: -90, opacity: 0 }}
-                    transition={{ duration: 0.2 }}
-                  >
-                    <HiMenuAlt3 size={24} />
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </motion.button>
-          </div>
-        </div>
-      </div>
-
-      {/* Mobile Menu */}
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.3 }}
-            className="md:hidden glass-strong overflow-hidden border-t border-white/10"
+      <ul
+        ref={menuRef}
+        style={{ height: 0 }}
+        className={`invisible overflow-hidden opacity-0 md:hidden ${
+          onCobalt ? "surface-cobalt border-t border-white/20 dark:border-white/10" : "border-t border-ink/10 bg-paper"
+        }`}
+      >
+        {links.map((link) => (
+          <li
+            key={link.name}
+            className={`border-b last:border-none ${onCobalt ? "border-white/10" : "border-ink/5"}`}
           >
-            <motion.div
-              initial="closed"
-              animate="open"
-              exit="closed"
-              variants={{
-                open: {
-                  transition: { staggerChildren: 0.07, delayChildren: 0.1 }
-                },
-                closed: {
-                  transition: { staggerChildren: 0.05, staggerDirection: -1 }
-                }
+            <a
+              href={link.href}
+              onClick={(e) => {
+                e.preventDefault();
+                handleClick(link.href);
               }}
-              className="px-2 pt-2 pb-3 space-y-1 sm:px-3"
+              tabIndex={isOpen ? 0 : -1}
+              className={`block px-6 py-4 text-sm ${
+                onCobalt
+                  ? active === link.href
+                    ? "text-white"
+                    : "text-frost"
+                  : active === link.href
+                  ? "text-cobalt"
+                  : "text-muted"
+              }`}
             >
-              {navLinks.map((link) => (
-                <motion.div
-                  key={link.name}
-                  variants={{
-                    open: {
-                      y: 0,
-                      opacity: 1,
-                      transition: {
-                        y: { stiffness: 1000, velocity: -100 }
-                      }
-                    },
-                    closed: {
-                      y: 20,
-                      opacity: 0,
-                      transition: {
-                        y: { stiffness: 1000 }
-                      }
-                    }
-                  }}
-                >
-                  <Link
-                    to={link.path}
-                    onClick={() => setIsOpen(false)}
-                    className={`block px-4 py-3 rounded-lg text-base font-medium transition-all duration-300 ${
-                      location.pathname === link.path
-                        ? 'text-accent bg-gradient-to-r from-accent/20 to-accent-purple/20 border border-accent/30'
-                        : 'text-gray-300 hover:text-white hover:bg-white/5'
-                    }`}
-                  >
-                    {link.name}
-                  </Link>
-                </motion.div>
-              ))}
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </nav>
+              {link.name}
+            </a>
+          </li>
+        ))}
+        <li>
+          <a
+            href={cvPDF}
+            download="williams-lenkeu-cv.pdf"
+            tabIndex={isOpen ? 0 : -1}
+            className={`block px-6 py-4 text-sm ${onCobalt ? "text-frost" : "text-muted"}`}
+          >
+            Télécharger le CV
+          </a>
+        </li>
+      </ul>
+    </header>
   );
 };
 

@@ -1,25 +1,24 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
 import Layout from "./components/layout/Layout";
-import Home from "./features/home/Home";
+import Hero from "./features/home/Hero";
 import About from "./features/about/About";
+import Stack from "./features/stack/Stack";
 import Projects from "./features/projects/Projects";
-import Resume from "./features/resume/Resume";
-import "./index.css";
+import Experience from "./features/experience/Experience";
+import Github from "./features/github/Github";
+import Contact from "./features/contact/Contact";
 
 function App() {
   return (
-    <Router>
-      <Layout>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/project" element={<Projects />} />
-          <Route path="/resume" element={<Resume />} />
-          <Route path="*" element={<Navigate to="/" />} />
-        </Routes>
-      </Layout>
-    </Router>
+    <Layout>
+      <Hero />
+      <About />
+      <Stack />
+      <Projects />
+      <Experience />
+      <Github />
+      <Contact />
+    </Layout>
   );
 }
 

@@ -1,192 +1,144 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import Typewriter from 'typewriter-effect';
-import { FaGithub, FaLinkedin, FaEnvelope } from 'react-icons/fa';
-import { HiArrowRight } from 'react-icons/hi';
-import ParticlesBackground from '../../components/ui/ParticlesBackground';
-import Button from '../../components/ui/Button';
-import avatarImage from '../../Assets/avatar.webp';
+import React, { useLayoutEffect, useRef } from "react";
+import avatarImage from "../../Assets/avatar.webp";
+import cvPDF from "../../Assets/curriculum_vitae.pdf";
+import MagneticButton from "../../components/ui/MagneticButton";
+import { gsap, prefersReducedMotion } from "../../lib/gsap";
+import { useGithubStats, USERNAME_GITHUB } from "../../lib/useGithubStats";
 
 const Hero = () => {
+  const { data } = useGithubStats();
+  const sectionRef = useRef(null);
+  const nameRef = useRef(null);
+  const portraitRef = useRef(null);
+  const portraitImgRef = useRef(null);
+
+  useLayoutEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
+
+    const lines = nameRef.current.querySelectorAll(".name-line");
+    const fadeItems = section.querySelectorAll("[data-hero-fade]");
+
+    if (prefersReducedMotion()) {
+      gsap.set(lines, { clipPath: "inset(0% 0% 0% 0%)", opacity: 1, y: 0 });
+      gsap.set(portraitRef.current, { clipPath: "inset(0% 0% 0% 0%)" });
+      gsap.set(fadeItems, { opacity: 1, y: 0 });
+      return;
+    }
+
+    gsap.set(lines, { clipPath: "inset(0% 0% 100% 0%)", opacity: 0, y: 20 });
+    gsap.set(portraitRef.current, { clipPath: "inset(0% 0% 100% 0%)" });
+    gsap.set(fadeItems, { opacity: 0, y: 16 });
+
+    const tl = gsap.timeline({ delay: 0.15 });
+    tl.to(fadeItems[0], { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" });
+    tl.to(
+      lines,
+      { clipPath: "inset(0% 0% 0% 0%)", opacity: 1, y: 0, duration: 0.9, ease: "power4.out", stagger: 0.12 },
+      "-=0.3"
+    );
+    tl.to(
+      portraitRef.current,
+      { clipPath: "inset(0% 0% 0% 0%)", duration: 1.1, ease: "power4.inOut" },
+      "-=0.9"
+    );
+    tl.to(
+      Array.from(fadeItems).slice(1),
+      { opacity: 1, y: 0, duration: 0.5, ease: "power3.out", stagger: 0.1 },
+      "-=0.6"
+    );
+
+    // Parallaxe discrète du portrait au scroll
+    const parallax = gsap.to(portraitImgRef.current, {
+      yPercent: 8,
+      ease: "none",
+      scrollTrigger: { trigger: section, start: "top top", end: "bottom top", scrub: true },
+    });
+
+    return () => {
+      tl.kill();
+      parallax.scrollTrigger?.kill();
+      parallax.kill();
+    };
+  }, []);
+
   return (
-    <section className="min-h-[calc(100vh-80px)] flex items-center justify-center relative overflow-hidden">
-      {/* Particules animées en arrière-plan */}
-      <ParticlesBackground />
-      
-      {/* Orbes flottants pour effet de profondeur */}
-      <div className="absolute top-0 left-0 w-full h-full overflow-hidden -z-10">
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-accent/10 rounded-full blur-3xl pulse-glow" />
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-accent-purple/10 rounded-full blur-3xl pulse-glow animation-delay-1000" />
-        <div className="absolute top-1/2 left-1/2 w-64 h-64 bg-accent-pink/10 rounded-full blur-2xl float-animation" />
-      </div>
+    <section
+      ref={sectionRef}
+      id="hero"
+      className="on-cobalt surface-cobalt flex min-h-dvh flex-col pt-16 text-white"
+    >
+      <div className="relative mx-auto grid w-full max-w-[1400px] flex-1 grid-cols-1 lg:grid-cols-[1fr_36%]">
+        <div className="relative z-10 flex flex-col justify-center px-6 py-14 lg:pl-[max(1.5rem,calc((100vw-1400px)/2+1.5rem))] lg:pr-0">
+          <p data-hero-fade className="font-mono text-sm text-frost">
+            Développeur full stack — Yaoundé, Cameroun
+          </p>
 
-      <div className="container mx-auto px-4 z-10">
-        <div className="flex flex-col items-center text-center mt-10">
-          {/* Avatar avec effet 3D et Glow */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.5, rotateY: 180 }}
-            animate={{ opacity: 1, scale: 1, rotateY: 0 }}
-            transition={{ duration: 0.8, type: "spring" }}
-            className="mb-8 relative"
+          <h1
+            ref={nameRef}
+            className="mt-6 text-[clamp(3.5rem,9.5vw,6rem)] font-extrabold leading-[0.98] tracking-[-0.02em] lg:-mr-28"
           >
-            <div className="absolute inset-0 bg-gradient-to-r from-accent via-accent-purple to-accent-pink rounded-full blur-xl opacity-50 animate-pulse-glow" />
-            <div className="relative w-32 h-32 md:w-40 md:h-40 rounded-full bg-gradient-to-br from-accent via-accent-purple to-accent-pink p-1 glow-accent">
-              <img 
-                src={avatarImage} 
-                alt="Williams Lenkeu" 
-                className="w-full h-full rounded-full object-cover"
-              />
-            </div>
-          </motion.div>
-
-          {/* Badge de statut */}
-          {/* <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.3 }}
-            className="mb-6"
-          >
-            <span className="glass px-4 py-2 rounded-full text-sm flex items-center gap-2">
-              <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
-              Disponible pour de nouveaux projets
+            <span className="name-line block">Williams</span>
+            <span className="name-line block">
+              Lenkeu<span className="text-frost dark:text-cobalt">.</span>
             </span>
-          </motion.div> */}
+          </h1>
 
-          {/* Main Title */}
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-            className="text-4xl md:text-6xl lg:text-7xl font-bold mb-4"
-          >
-            Salut, je suis{' '}
-            <span className="gradient-text-animated">Williams Lenkeu</span>
-          </motion.h1>
-          
-          {/* Typewriter Subtitle */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.6 }}
-            className="text-xl md:text-3xl text-gray-300 mb-8 h-20 flex items-center"
-          >
-            <Typewriter
-              options={{
-                strings: [
-                  "Développeur Full Stack",
-                  "Passionné par le développement web et mobile",
-                  "Créateur d'expériences web",
-                  "Architecte de solutions modernes",
-                ],
-                autoStart: true,
-                loop: true,
-                deleteSpeed: 50,
-                delay: 80,
-              }}
-            />
-          </motion.div>
+          <p data-hero-fade className="mt-8 max-w-[44ch] text-lg leading-relaxed text-frost">
+            Interfaces React et Flutter, serveurs Node.js, Django et Spring Boot.
+            Toute la chaîne, prouvée par du code réel.
+          </p>
 
-          {/* Description */}
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.8 }}
-            className="text-gray-400 max-w-2xl mb-10 text-lg leading-relaxed"
-          >
-            Je transforme des idées en{' '}
-            <span className="text-accent font-semibold">applications web modernes</span> et performantes.
-            Spécialisé dans React, Node.js et les technologies cloud.
-          </motion.p>
-
-          {/* CTA Buttons */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 1 }}
-            className="flex flex-wrap gap-4 justify-center mb-12"
-          >
-            <Button
-              variant="primary"
-              size="lg"
-              onClick={() => window.location.href = 'mailto:contact@williamslenkeu.com'}
-              icon={<HiArrowRight className="w-5 h-5" />}
+          <div data-hero-fade className="mt-10 flex flex-wrap items-center gap-6">
+            <MagneticButton
+              as="a"
+              href="mailto:williamslenkeu.u@gmail.com"
+              className="inline-flex rounded-full bg-white px-6 py-3 text-sm font-medium text-cobalt transition-transform duration-200 active:scale-95 dark:bg-cobalt dark:text-white"
             >
               Me contacter
-            </Button>
-            <Button
-              variant="secondary"
-              size="lg"
-              onClick={() => window.location.href = '/resume'}
+            </MagneticButton>
+            <a
+              href={cvPDF}
+              download="williams-lenkeu-cv.pdf"
+              className="text-sm text-white underline underline-offset-4 transition-colors hover:text-frost"
             >
-              Voir mon CV
-            </Button>
-          </motion.div>
+              Télécharger le CV
+            </a>
+          </div>
+        </div>
 
-          {/* Social Links */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.6, delay: 1.2 }}
-            className="flex gap-4 mb-10"
-          >
-            <motion.a
-              href="https://github.com/WilliamsLenkeu"
-              target="_blank"
-              rel="noopener noreferrer"
-              whileHover={{ scale: 1.1, y: -5 }}
-              whileTap={{ scale: 0.95 }}
-              className="glass p-4 rounded-full text-gray-400 hover:text-accent transition-colors hover:border-accent/30 border border-transparent"
-            >
-              <FaGithub size={24} />
-            </motion.a>
-            <motion.a
-              href="https://linkedin.com/in/williams-lenkeu"
-              target="_blank"
-              rel="noopener noreferrer"
-              whileHover={{ scale: 1.1, y: -5 }}
-              whileTap={{ scale: 0.95 }}
-              className="glass p-4 rounded-full text-gray-400 hover:text-accent transition-colors hover:border-accent/30 border border-transparent"
-            >
-              <FaLinkedin size={24} />
-            </motion.a>
-            <motion.a
-              href="mailto:williamslenkeu.u@gmail.com"
-              whileHover={{ scale: 1.1, y: -5 }}
-              whileTap={{ scale: 0.95 }}
-              className="glass p-4 rounded-full text-gray-400 hover:text-accent transition-colors hover:border-accent/30 border border-transparent"
-            >
-              <FaEnvelope size={24} />
-            </motion.a>
-          </motion.div>
+        <div ref={portraitRef} className="relative min-h-[320px] overflow-hidden lg:min-h-0">
+          <img
+            ref={portraitImgRef}
+            src={avatarImage}
+            alt="Portrait de Williams Lenkeu"
+            className="duotone-cobalt absolute inset-0 h-full w-full scale-110 object-cover object-top"
+          />
+        </div>
+      </div>
 
-          {/* Scroll Indicator */}
-          {/* <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.6, delay: 1.4 }}
-            className="absolute bottom-10 left-1/2 transform -translate-x-1/2"
+      <div className="surface-cobalt relative z-10 border-t border-white/25 dark:border-white/10">
+        <div
+          data-hero-fade
+          className="mx-auto flex w-full max-w-[1400px] flex-col gap-2 px-6 py-4 font-mono text-xs text-frost sm:flex-row sm:items-center sm:justify-between"
+        >
+          <a
+            href={`https://github.com/${USERNAME_GITHUB}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="transition-colors hover:text-white"
           >
-            <motion.div
-              animate={{ y: [0, 10, 0] }}
-              transition={{ duration: 2, repeat: Infinity }}
-              className="flex flex-col items-center gap-2 text-gray-400"
-            >
-              <span className="text-sm">Scroll</span>
-              <svg
-                className="w-6 h-6"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M19 14l-7 7m0 0l-7-7m7 7V3"
-                />
-              </svg>
-            </motion.div>
-          </motion.div> */}
+            {data
+              ? `${data.repos} dépôts publics · ${data.stars} étoiles · ${data.followers} abonnés GitHub`
+              : "Activité GitHub en direct…"}
+          </a>
+          <span className="inline-flex items-center gap-2">
+            <span className="relative flex h-1.5 w-1.5">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-300/60" />
+              <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-emerald-300" />
+            </span>
+            Disponible pour du freelance
+          </span>
         </div>
       </div>
     </section>
