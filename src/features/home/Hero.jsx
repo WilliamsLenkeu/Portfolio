@@ -1,6 +1,6 @@
 import React, { useLayoutEffect, useRef } from "react";
 import avatarImage from "../../Assets/avatar.webp";
-import cvPDF from "../../Assets/curriculum_vitae.pdf";
+import cvPDF from "../../Assets/curriculum_vitae_lenkeu_djache_prince_williams.pdf";
 import Arrow from "../../components/ui/Arrow";
 import { gsap, SplitText, prefersReducedMotion } from "../../lib/gsap";
 import { useGithubStats, USERNAME_GITHUB } from "../../lib/useGithubStats";
@@ -86,7 +86,7 @@ const Hero = () => {
       <div className="relative mx-auto grid w-full max-w-[1400px] flex-1 grid-cols-1 lg:grid-cols-[1fr_36%]">
         <div className="relative z-10 flex flex-col justify-center px-6 py-14 lg:pl-[max(1.5rem,calc((100vw-1400px)/2+1.5rem))] lg:pr-0">
           <p data-hero-fade className="font-mono text-sm text-frost">
-            Développeur full stack — Yaoundé, Cameroun
+            Backend, DevOps et data analysis, Yaoundé
           </p>
 
           <h1
@@ -100,13 +100,13 @@ const Hero = () => {
           </h1>
 
           <p data-hero-fade className="mt-8 max-w-[44ch] text-lg leading-relaxed text-frost">
-            Interfaces React et Flutter, serveurs Node.js, Django et Spring Boot.
-            Toute la chaîne, prouvée par du code réel.
+            Architectures backend, performance et traitement de données.
+            Du code jusqu'à l'infra.
           </p>
 
           <div data-hero-fade className="mt-10 flex flex-wrap items-baseline gap-x-8 gap-y-3">
             <a
-              href="mailto:williamslenkeu.u@gmail.com"
+              href="mailto:williams25prince@gmail.com"
               className="text-base font-semibold text-white underline decoration-white/40 decoration-2 underline-offset-8 transition-colors duration-200 hover:decoration-white"
             >
               Me contacter

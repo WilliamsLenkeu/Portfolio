@@ -4,82 +4,83 @@ import { gsap, prefersReducedMotion } from "../../lib/gsap";
 
 const experiences = [
   {
-    period: "2025",
-    detail: "Depuis nov.",
-    title: "Développeur Backend & Consultant",
-    company: "Farmease",
+    period: "2025-26",
+    detail: "Nov. - Juin",
+    title: "Ingénieur Système et DevOps",
+    company: "Farmease, Yaoundé",
     description:
-      "Backend de FarmEase, application de gestion d'exploitations agricoles : suivi d'élevage, finances, alertes intelligentes, rapports et mode hors ligne.",
+      "Cycle de vie complet de l'infra backend : développement, déploiement, tests, configuration serveur et maintenance.",
   },
   {
-    period: "2025 — 26",
-    detail: "Nov — Mai",
+    period: "2025-26",
+    detail: "Nov. - Mai",
     title: "Développeur IT",
-    company: "Brain-Booster",
-    description: "Développement logiciel et support technique.",
+    company: "Brain-Booster, Yaoundé",
+    description: "Développement logiciel et support informatique.",
   },
   {
-    period: "2024 — 25",
-    detail: "Déc — Juin",
+    period: "2024-25",
+    detail: "Déc. - Juin",
     title: "Développeur Fullstack",
-    company: "Smart Service Hub",
-    description: "Application mobile Flutter d'aide à l'orientation académique, backend NestJS.",
+    company: "Smart Service Hub, Yaoundé",
+    description:
+      "Application mobile Flutter d'aide à l'orientation académique, frontend Flutter et backend NestJS.",
   },
   {
     period: "2024",
-    detail: "Avril — Août",
+    detail: "Avr. - Août",
     title: "Assistant service courriel",
     company: "Ministère de l'enseignement supérieur",
     description: "Gestion des communications et support administratif.",
   },
   {
     period: "2023",
-    detail: "Juin — Sept",
+    detail: "Juin - Sept.",
+    title: "Développeur back-end Django",
+    company: "IccSoft, Yaoundé",
+    description: "Application web Django, optimisation du processus de recrutement.",
+  },
+  {
+    period: "2023",
+    detail: "Avr. - Juin",
     title: "Développeur Frontend Mobile",
-    company: "SKLF Group",
-    description: "Application mobile de communication en temps réel, développée en Flutter.",
-  },
-  {
-    period: "2023",
-    detail: "Avril — Juin",
-    title: "Assistant service courriel",
-    company: "Ministère de l'enseignement supérieur",
-    description: "Gestion des communications et support administratif.",
+    company: "SKLF Group, Yaoundé",
+    description: "Application mobile de communication, développée en Flutter.",
   },
   {
     period: "2022",
-    detail: "Juil — Sept",
-    title: "Développeur Back-end",
-    company: "IccSoft",
-    description: "Application web de recrutement avec Django, optimisation des flux de travail.",
+    detail: "Juil. - Sept.",
+    title: "Développeur Web",
+    company: "SKLF Group, Yaoundé",
+    description: "Site web responsive.",
   },
   {
     period: "2021",
-    detail: "Juin — Août",
+    detail: "Juin - Août",
     title: "Développeur Web",
-    company: "SKLF Group",
-    description: "Site web responsive et gestion des inscriptions aux formations.",
+    company: "SKLF Group, Yaoundé",
+    description: "Application web de gestion des inscriptions aux formations.",
   },
 ];
 
 const education = [
   {
-    period: "2022 — 2025",
-    detail: "",
+    period: "2022-25",
+    detail: "Sept. - Juil.",
     title: "Licence Pro. Informatique, ICT4D",
     company: "Université de Yaoundé I",
-    description: "Ingénieur des Travaux Informatiques, obtenue en juillet 2025.",
+    description: "Ingénieur des Travaux Informatiques, obtenue en juillet 2025, mention Assez bien.",
   },
   {
-    period: "2021 — 2022",
-    detail: "",
+    period: "2021-22",
+    detail: "Sept. - Juin",
     title: "Baccalauréat Série TI",
     company: "Collège La Retraite",
     description: "Algorithmique, programmation avancée, projets web scolaires.",
   },
   {
-    period: "2020 — 2021",
-    detail: "",
+    period: "2020-21",
+    detail: "Sept. - Juin",
     title: "Probatoire Série TI",
     company: "Collège Privé Laïc Pythagore",
     description: "",
@@ -139,7 +140,7 @@ const Ledger = ({ label, rows }) => {
       <div>
         {rows.map((item) => (
           <div
-            key={`${item.title}-${item.period}`}
+            key={`${item.title}-${item.company}-${item.period}-${item.detail}`}
             data-ledger-row
             className="grid grid-cols-[72px_1fr] gap-4 border-b border-ink/10 py-6 transition-colors duration-200 hover:bg-cobalt/[0.04] sm:grid-cols-[110px_260px_1fr] sm:gap-8"
           >

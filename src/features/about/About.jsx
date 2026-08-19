@@ -5,8 +5,8 @@ import { useSplitText } from "../../lib/useSplitText";
 
 const facts = [
   { value: 5, label: "Années d'expérience" },
-  { value: 6, label: "Projets livrés" },
-  { value: 12, label: "Technologies maîtrisées" },
+  { value: 8, label: "Missions professionnelles" },
+  { value: 16, label: "Technologies maîtrisées" },
 ];
 
 const About = () => {
@@ -23,21 +23,21 @@ const About = () => {
               ref={statementRef}
               className="text-[clamp(1.75rem,4vw,2.75rem)] font-bold leading-[1.15] tracking-tight text-ink"
             >
-              Ingénieur des Travaux Informatiques, je conçois des produits
-              <span className="text-cobalt"> de bout en bout</span> — interface,
-              logique métier, infrastructure.
+              Ingénieur des Travaux Informatiques, je conçois des architectures
+              <span className="text-cobalt"> backend et DevOps</span>, de la
+              performance au traitement de données.
             </p>
 
             <div ref={proseRef} className="mt-14 grid grid-cols-1 gap-8 sm:grid-cols-2 sm:gap-12">
               <p className="text-base leading-relaxed text-muted">
-                Je travaille aussi bien avec <strong className="font-semibold text-ink">React et Flutter</strong> côté
-                client qu'avec <strong className="font-semibold text-ink">Node.js, Django ou Spring Boot</strong> côté
-                serveur, et je m'appuie sur MySQL, PostgreSQL, Firebase ou MongoDB selon le contexte du projet.
+                Côté serveur : <strong className="font-semibold text-ink">Node.js, NestJS, Django, Laravel ou Spring Boot</strong>,
+                avec MySQL, Firebase ou MongoDB. Python pour la data, l'IA et l'automatisation.
+                React et Flutter quand le produit l'exige.
               </p>
               <p className="text-base leading-relaxed text-muted">
-                <strong className="font-semibold text-ink">Curieux et rigoureux</strong>, j'aime comprendre un problème
-                avant de le coder, et je reste disponible pour des missions freelance ou des collaborations
-                ponctuelles.
+                Français et anglais. <strong className="font-semibold text-ink">Curieux et rigoureux</strong>,
+                j'aime comprendre un problème avant de le coder. Disponible pour du freelance
+                ou des collaborations ponctuelles.
               </p>
             </div>
           </div>

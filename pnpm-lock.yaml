@@ -4,6 +4,14 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+overrides:
+  baseline-browser-mapping: 2.11.15
+  caniuse-lite: 1.0.30001809
+
+patchedDependencies:
+  react-dev-utils@12.0.1: 44e264d809c9d194e1a8762f7bb55a96060bc9c8f2d8209b5eb0126188ce8406
+  react-scripts@5.0.0: 7df0c95a3337764db048d611249c79dc5cf05fbf474848c69ec2c90b0375a6a2
+
 importers:
 
   .:
@@ -31,7 +39,7 @@ importers:
         version: 4.12.0(react@17.0.2)
       react-scripts:
         specifier: 5.0.0
-        version: 5.0.0(@babel/plugin-syntax-flow@7.27.1(@babel/core@7.28.5))(@babel/plugin-transform-react-jsx@7.27.1(@babel/core@7.28.5))(@types/babel__core@7.20.5)(eslint@8.57.1)(react@17.0.2)(type-fest@0.21.3)(typescript@4.9.5)
+        version: 5.0.0(patch_hash=7df0c95a3337764db048d611249c79dc5cf05fbf474848c69ec2c90b0375a6a2)(@babel/plugin-syntax-flow@7.27.1(@babel/core@7.28.5))(@babel/plugin-transform-react-jsx@7.27.1(@babel/core@7.28.5))(@types/babel__core@7.20.5)(eslint@8.57.1)(react@17.0.2)(type-fest@0.21.3)(typescript@4.9.5)
       web-vitals:
         specifier: ^2.1.4
         version: 2.1.4
@@ -42,6 +50,12 @@ importers:
       autoprefixer:
         specifier: ^10.4.2
         version: 10.4.22(postcss@8.5.6)
+      baseline-browser-mapping:
+        specifier: 2.11.15
+        version: 2.11.15
+      caniuse-lite:
+        specifier: 1.0.30001809
+        version: 1.0.30001809
       eslint-config-react-app:
         specifier: ^7.0.1
         version: 7.0.1(@babel/plugin-syntax-flow@7.27.1(@babel/core@7.28.5))(@babel/plugin-transform-react-jsx@7.27.1(@babel/core@7.28.5))(eslint@8.57.1)(jest@27.5.1)(typescript@4.9.5)
@@ -1817,8 +1831,9 @@ packages:
   balanced-match@1.0.2:
     resolution: {integrity: sha512-3oSeUO0TMV67hN1AmbXsK4yaqU7tjiHlbxRDZOpH0KW9+CeX4bRAaX0Anxt0tx2MrpRpWwQaPwIlISEJhYU5Pw==}
 
-  baseline-browser-mapping@2.8.29:
-    resolution: {integrity: sha512-sXdt2elaVnhpDNRDz+1BDx1JQoJRuNk7oVlAlbGiFkLikHCAQiccexF/9e91zVi6RCgqspl04aP+6Cnl9zRLrA==}
+  baseline-browser-mapping@2.11.15:
+    resolution: {integrity: sha512-FwMjJJ7HnyZpWe+oWxegG0fezZyBZUagI5LZEoO3GCbtbKNwRfMH9Ue5d5v01PNePBy1QSfPSDTTeVL0Hb9EzA==}
+    engines: {node: '>=6.0.0'}
     hasBin: true
 
   batch@0.6.1:
@@ -1914,8 +1929,8 @@ packages:
   caniuse-api@3.0.0:
     resolution: {integrity: sha512-bsTwuIg/BZZK/vreVTYYbSWoe2F+71P7K5QGEX+pT250DZbfU1MQ5prOKpPR+LL6uWKK3KMwMCAS74QB3Um1uw==}
 
-  caniuse-lite@1.0.30001756:
-    resolution: {integrity: sha512-4HnCNKbMLkLdhJz3TToeVWHSnfJvPaq6vu/eRP0Ahub/07n484XHhBF5AJoSGHdVrS8tKFauUQz8Bp9P7LVx7A==}
+  caniuse-lite@1.0.30001809:
+    resolution: {integrity: sha512-xxWVywk6a6Arlk+hymeycyn/VgqEfLDxupvhH/xiY5SJ/18kmi9o6MiO320DCUzypORHLtvh0I4i04tUhCNHNQ==}
 
   case-sensitive-paths-webpack-plugin@2.4.0:
     resolution: {integrity: sha512-roIFONhcxog0JSSWbvVAh3OocukmSgpqOH6YpMkCvav/ySIV3JKg4Dc8vYtQjYi/UxpNE36r/9v+VqTQqgkYmw==}
@@ -7793,7 +7808,7 @@ snapshots:
   autoprefixer@10.4.22(postcss@8.5.6):
     dependencies:
       browserslist: 4.28.0
-      caniuse-lite: 1.0.30001756
+      caniuse-lite: 1.0.30001809
       fraction.js: 5.3.4
       normalize-range: 0.1.2
       picocolors: 1.1.1
@@ -7933,7 +7948,7 @@ snapshots:
 
   balanced-match@1.0.2: {}
 
-  baseline-browser-mapping@2.8.29: {}
+  baseline-browser-mapping@2.11.15: {}
 
   batch@0.6.1: {}
 
@@ -7992,8 +8007,8 @@ snapshots:
 
   browserslist@4.28.0:
     dependencies:
-      baseline-browser-mapping: 2.8.29
-      caniuse-lite: 1.0.30001756
+      baseline-browser-mapping: 2.11.15
+      caniuse-lite: 1.0.30001809
       electron-to-chromium: 1.5.257
       node-releases: 2.0.27
       update-browserslist-db: 1.1.4(browserslist@4.28.0)
@@ -8041,11 +8056,11 @@ snapshots:
   caniuse-api@3.0.0:
     dependencies:
       browserslist: 4.28.0
-      caniuse-lite: 1.0.30001756
+      caniuse-lite: 1.0.30001809
       lodash.memoize: 4.1.2
       lodash.uniq: 4.5.0
 
-  caniuse-lite@1.0.30001756: {}
+  caniuse-lite@1.0.30001809: {}
 
   case-sensitive-paths-webpack-plugin@2.4.0: {}
 
@@ -11196,7 +11211,7 @@ snapshots:
       regenerator-runtime: 0.13.11
       whatwg-fetch: 3.6.20
 
-  react-dev-utils@12.0.1(eslint@8.57.1)(typescript@4.9.5)(webpack@5.103.0):
+  react-dev-utils@12.0.1(patch_hash=44e264d809c9d194e1a8762f7bb55a96060bc9c8f2d8209b5eb0126188ce8406)(eslint@8.57.1)(typescript@4.9.5)(webpack@5.103.0):
     dependencies:
       '@babel/code-frame': 7.27.1
       address: 1.2.2
@@ -11251,7 +11266,7 @@ snapshots:
 
   react-refresh@0.11.0: {}
 
-  react-scripts@5.0.0(@babel/plugin-syntax-flow@7.27.1(@babel/core@7.28.5))(@babel/plugin-transform-react-jsx@7.27.1(@babel/core@7.28.5))(@types/babel__core@7.20.5)(eslint@8.57.1)(react@17.0.2)(type-fest@0.21.3)(typescript@4.9.5):
+  react-scripts@5.0.0(patch_hash=7df0c95a3337764db048d611249c79dc5cf05fbf474848c69ec2c90b0375a6a2)(@babel/plugin-syntax-flow@7.27.1(@babel/core@7.28.5))(@babel/plugin-transform-react-jsx@7.27.1(@babel/core@7.28.5))(@types/babel__core@7.20.5)(eslint@8.57.1)(react@17.0.2)(type-fest@0.21.3)(typescript@4.9.5):
     dependencies:
       '@babel/core': 7.28.5
       '@pmmmwh/react-refresh-webpack-plugin': 0.5.17(react-refresh@0.11.0)(type-fest@0.21.3)(webpack-dev-server@4.15.2(webpack@5.103.0))(webpack@5.103.0)
@@ -11287,7 +11302,7 @@ snapshots:
       prompts: 2.4.2
       react: 17.0.2
       react-app-polyfill: 3.0.0
-      react-dev-utils: 12.0.1(eslint@8.57.1)(typescript@4.9.5)(webpack@5.103.0)
+      react-dev-utils: 12.0.1(patch_hash=44e264d809c9d194e1a8762f7bb55a96060bc9c8f2d8209b5eb0126188ce8406)(eslint@8.57.1)(typescript@4.9.5)(webpack@5.103.0)
       react-refresh: 0.11.0
       resolve: 1.22.11
       resolve-url-loader: 4.0.0

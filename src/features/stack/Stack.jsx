@@ -3,10 +3,10 @@ import SectionTitle from "../../components/ui/SectionTitle";
 import { gsap, prefersReducedMotion } from "../../lib/gsap";
 
 const groups = [
-  { category: "Langages", items: ["JavaScript", "PHP", "Dart", "Java"] },
+  { category: "Langages", items: ["JavaScript", "PHP", "Python", "Dart"] },
   { category: "Backend", items: ["Node.js", "NestJS", "Django", "Spring Boot", "Laravel"] },
-  { category: "Frontend", items: ["React", "Angular", "Flutter", "Bootstrap", "Tailwind CSS"] },
-  { category: "Bases de données", items: ["MySQL", "PostgreSQL", "Firebase", "MongoDB"] },
+  { category: "Frontend", items: ["React", "Flutter", "Bootstrap", "Tailwind CSS"] },
+  { category: "Bases de données", items: ["MySQL", "Firebase", "MongoDB"] },
 ];
 
 const Stack = () => {
@@ -45,7 +45,7 @@ const Stack = () => {
   return (
     <section id="stack" className="bg-paper">
       <div className="mx-auto max-w-page px-6 py-28">
-        <SectionTitle subtitle="Les langages, frameworks et outils que j'utilise au quotidien.">
+        <SectionTitle subtitle="Backend, data et front. Ce que j'utilise au quotidien.">
           Stack technique
         </SectionTitle>
 

@@ -5,6 +5,7 @@ import About from "./features/about/About";
 import Stack from "./features/stack/Stack";
 import Projects from "./features/projects/Projects";
 import Experience from "./features/experience/Experience";
+import Certifications from "./features/certifications/Certifications";
 import Github from "./features/github/Github";
 import Contact from "./features/contact/Contact";
 
@@ -16,6 +17,7 @@ function App() {
       <Stack />
       <Projects />
       <Experience />
+      <Certifications />
       <Github />
       <Contact />
     </Layout>

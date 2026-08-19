@@ -1,5 +1,5 @@
 import React, { useLayoutEffect, useRef } from "react";
-import cvPDF from "../../Assets/curriculum_vitae.pdf";
+import cvPDF from "../../Assets/curriculum_vitae_lenkeu_djache_prince_williams.pdf";
 import Arrow from "../../components/ui/Arrow";
 import { gsap, prefersReducedMotion } from "../../lib/gsap";
 import { useSplitText } from "../../lib/useSplitText";
@@ -49,13 +49,19 @@ const Contact = () => {
           </p>
           <a
             ref={emailRef}
-            href="mailto:williamslenkeu.u@gmail.com"
+            href="mailto:williams25prince@gmail.com"
             className="mt-6 inline-block break-words text-[clamp(1.35rem,5.5vw,4.25rem)] font-extrabold leading-tight tracking-tight text-white underline decoration-white/30 decoration-2 underline-offset-8 transition-colors duration-200 hover:decoration-white"
           >
-            williamslenkeu.u@gmail.com
+            williams25prince@gmail.com
+          </a>
+          <a
+            href="tel:+237694903123"
+            className="mt-6 inline-block font-mono text-sm text-frost transition-colors hover:text-white"
+          >
+            +237 6 94 90 31 23
           </a>
           <p ref={noteRef} className="mt-10 text-base text-frost">
-            Disponible pour missions freelance et collaborations ponctuelles —{" "}
+            Disponible pour missions freelance et collaborations ponctuelles.{" "}
             <a
               href={cvPDF}
               download="williams-lenkeu-cv.pdf"
@@ -71,7 +77,7 @@ const Contact = () => {
           ref={footerRef}
           className="flex flex-col items-start justify-between gap-4 border-t border-white/25 py-6 dark:border-white/10 sm:flex-row sm:items-center"
         >
-          <p className="font-mono text-xs text-frost">© {year} — Conçu et développé par Williams Lenkeu</p>
+          <p className="font-mono text-xs text-frost">© {year}. Conçu et développé par Williams Lenkeu</p>
           <div className="flex items-center gap-6">
             {footerLinks.map((link) => (
               <a

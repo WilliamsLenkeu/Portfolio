@@ -7,9 +7,9 @@ const projects = [
   {
     title: "FarmEase",
     description:
-      "Application de gestion d'exploitations agricoles en Afrique : suivi d'élevage, finances, alertes intelligentes, rapports et mode hors ligne. Développeur backend et consultant sur la plateforme.",
+      "Application de gestion d'exploitations agricoles en Afrique : suivi d'élevage, finances, alertes intelligentes, rapports et mode hors ligne. Infra backend, déploiement et maintenance.",
     url: "https://farmease.io",
-    tags: ["Backend", "API", "Offline-first", "Mission client"],
+    tags: ["Backend", "DevOps", "API", "Offline-first"],
   },
   {
     title: "EduManage",

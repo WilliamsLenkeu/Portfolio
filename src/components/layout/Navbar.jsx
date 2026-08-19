@@ -3,13 +3,14 @@ import { HiMenuAlt3, HiX, HiOutlineSun, HiOutlineMoon } from "react-icons/hi";
 import { gsap, ScrollTrigger, prefersReducedMotion } from "../../lib/gsap";
 import { runThemeWipe } from "../../lib/themeWipe";
 import Arrow from "../ui/Arrow";
-import cvPDF from "../../Assets/curriculum_vitae.pdf";
+import cvPDF from "../../Assets/curriculum_vitae_lenkeu_djache_prince_williams.pdf";
 
 const links = [
   { name: "Profil", href: "#about" },
   { name: "Stack", href: "#stack" },
   { name: "Projets", href: "#projects" },
   { name: "Parcours", href: "#experience" },
+  { name: "Certifs", href: "#certifications" },
   { name: "Contact", href: "#contact" },
 ];
 
@@ -172,7 +173,7 @@ const Navbar = () => {
           WL<span className={onCobalt ? "text-frost" : "text-cobalt"}>·</span>
         </a>
 
-        <ul ref={listRef} className="relative hidden items-center gap-6 md:flex">
+        <ul ref={listRef} className="relative hidden items-center gap-5 lg:gap-6 md:flex">
           <span
             ref={ruleRef}
             aria-hidden="true"
