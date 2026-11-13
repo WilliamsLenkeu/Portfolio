@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "hooks": {
+    "postToolUse": [
+      {
+        "command": "cmd /c if exist \".cursor\\skills\\impeccable\\scripts\\impeccable.cmd\" \".cursor\\skills\\impeccable\\scripts\\impeccable.cmd\" hook",
+        "matcher": "Write",
+        "timeout": 5
+      }
+    ],
+    "stop": [
+      {
+        "command": "cmd /c if exist \".cursor\\skills\\impeccable\\scripts\\impeccable.cmd\" \".cursor\\skills\\impeccable\\scripts\\impeccable.cmd\" hook",
+        "timeout": 30
+      }
+    ]
+  }
+}

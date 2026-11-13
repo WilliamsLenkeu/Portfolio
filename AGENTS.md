@@ -13,6 +13,14 @@ Portfolio React (CRA `react-scripts@5.0.0`, React 17, Tailwind 3). Package manag
 - github : issues / PR
 - playwright : verif UI
 
+## Design
+- Impeccable v4.9 (`.cursor/skills/impeccable`) + hook `.cursor/hooks.json`
+- Config partagée : `.impeccable/config.json` ; locale gitignorée : `.impeccable/config.local.json`
+- Mode visiteur : Experience (portfolio). Light par défaut.
+- Direction produit : `PRODUCT.md`
+
 ## Commandes
 - `pnpm start` — dev (`http://localhost:3000`)
 - `pnpm build` — prod
+- `npx impeccable update` — maj skill / engine
+- `npx impeccable hooks status` — état du design hook

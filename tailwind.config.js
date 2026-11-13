@@ -18,8 +18,11 @@ module.exports = {
         display: ["Schibsted Grotesk", "system-ui", "sans-serif"],
         mono: ["JetBrains Mono", "monospace"],
       },
+      spacing: {
+        gutter: "var(--gutter)",
+      },
       maxWidth: {
-        page: "1160px",
+        page: "92rem",
       },
     },
   },

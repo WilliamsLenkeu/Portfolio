@@ -1,8 +1,6 @@
 # Product
 
-## Register
-
-brand
+<!-- impeccable:product-schema 1 -->
 
 ## Platform
 
@@ -25,7 +23,7 @@ Prouver une polyvalence fullstack réelle — React et Flutter côté client, No
 - Primary et secondary CTA : « Me contacter » (email direct) et « Télécharger le CV » comme repli pour un visiteur pas encore prêt à écrire.
 - La ligne qu'un visiteur retient après 10 secondes : ce développeur touche à toute la chaîne (interface, logique métier, infrastructure) et le prouve avec du code réel, pas des mots.
 - Belief ladder : (1) la polyvalence affichée est réelle, pas gonflée — les projets et la stack le confirment ; (2) le code livré est soigné — l'activité GitHub et les dépôts le montrent en direct ; (3) le profil est fiable et disponible — le statut et les délais de réponse annoncés le signalent.
-- Preuve disponible : dépôts GitHub réels et liés (EduManage, Fidelity, Kamer Forge, Store Dépôts), activité GitHub en direct (stats + heatmap), CV téléchargeable.
+- Preuve disponible : sites en production (FarmEase, Splenddd, Back2Mboa, Solutionneurs), activité GitHub en direct (stats + heatmap), CV téléchargeable.
 
 ## Brand Personality
 

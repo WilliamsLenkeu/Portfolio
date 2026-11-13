@@ -1,79 +1,40 @@
-import React, { useLayoutEffect, useRef } from "react";
+import React from "react";
 import SectionTitle from "../../components/ui/SectionTitle";
-import { gsap, prefersReducedMotion } from "../../lib/gsap";
 
 const groups = [
   { category: "Langages", items: ["JavaScript", "PHP", "Python", "Dart"] },
   { category: "Backend", items: ["Node.js", "NestJS", "Django", "Spring Boot", "Laravel"] },
-  { category: "Frontend", items: ["React", "Flutter", "Bootstrap", "Tailwind CSS"] },
+  { category: "Frontend", items: ["React", "Flutter", "Bootstrap", "Tailwind"] },
   { category: "Bases de données", items: ["MySQL", "Firebase", "MongoDB"] },
 ];
 
 const Stack = () => {
-  const listRef = useRef(null);
-
-  useLayoutEffect(() => {
-    const list = listRef.current;
-    if (!list || prefersReducedMotion()) return;
-
-    const rows = list.querySelectorAll("[data-stack-row]");
-    const tweens = [];
-
-    rows.forEach((row) => {
-      const tween = gsap.from(row, {
-        autoAlpha: 0,
-        duration: 0.5,
-        ease: "power2.out",
-        scrollTrigger: {
-          trigger: row,
-          start: "top 92%",
-          toggleActions: "play none none none",
-          once: true,
-        },
-      });
-      tweens.push(tween);
-    });
-
-    return () => {
-      tweens.forEach((tween) => {
-        tween.scrollTrigger?.kill();
-        tween.kill();
-      });
-    };
-  }, []);
-
   return (
-    <section id="stack" className="bg-paper">
-      <div className="mx-auto max-w-page px-6 py-28">
-        <SectionTitle subtitle="Backend, data et front. Ce que j'utilise au quotidien.">
-          Stack technique
+    <section id="stack" className="border-b border-ink/10 bg-paper">
+      <div className="border-b border-ink/10 px-gutter py-8">
+        <SectionTitle side subtitle="Stack en production.">
+          Stack
         </SectionTitle>
+      </div>
 
-        <div ref={listRef} className="border-b border-ink/10">
-          {groups.map((group) => (
-            <div
-              key={group.category}
-              data-stack-row
-              className="grid grid-cols-1 gap-3 border-t border-ink/10 py-9 sm:grid-cols-[160px_1fr] sm:gap-8"
-            >
-              <span className="pt-2 font-mono text-xs text-muted">{group.category}</span>
-              <p className="flex flex-wrap items-baseline gap-x-4 gap-y-2">
-                {group.items.map((name, i) => (
-                  <React.Fragment key={name}>
-                    <span className="cursor-default text-2xl font-bold tracking-tight text-ink transition-colors duration-200 hover:text-cobalt sm:text-3xl">
-                      {name}
-                    </span>
-                    {i < group.items.length - 1 && (
-                      <span aria-hidden="true" className="text-2xl font-bold text-cobalt sm:text-3xl">
-                        ·
-                      </span>
-                    )}
-                  </React.Fragment>
-                ))}
-              </p>
-            </div>
-          ))}
-        </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+        {groups.map((group, i) => (
+          <div
+            key={group.category}
+            className={`border-b border-ink/10 px-gutter py-7 last:border-b-0 sm:border-b lg:border-b-0 lg:py-9 ${
+              i % 2 === 0 ? "sm:border-r" : ""
+            } ${i < 3 ? "lg:border-r" : ""}`}
+          >
+            <p className="text-xs text-muted">{group.category}</p>
+            <ul className="mt-3 space-y-1">
+              {group.items.map((name) => (
+                <li key={name} className="text-xl font-semibold tracking-tight text-ink lg:text-2xl">
+                  {name}
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
       </div>
     </section>
   );

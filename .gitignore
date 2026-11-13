@@ -25,5 +25,9 @@ yarn-error.log*
 
 .eslintcache
 
+# Impeccable (consent / cache machine-local)
+.impeccable/config.local.json
+.impeccable/hook.cache.json
+
 Server/node_modules
 Server/config.js

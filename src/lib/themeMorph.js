@@ -2,37 +2,25 @@ import { gsap, prefersReducedMotion } from "./gsap";
 
 const LIGHT = {
   paper: { r: 255, g: 255, b: 255 },
-  ink: { r: 11, g: 13, b: 26 },
-  muted: { r: 64, g: 68, b: 92 },
-  surface: { r: 21, g: 51, b: 217 }, // cobalt
+  ink: { r: 12, g: 12, b: 14 },
+  muted: { r: 70, g: 70, b: 76 },
 };
 
 const DARK = {
-  paper: { r: 11, g: 13, b: 26 },
-  ink: { r: 242, g: 243, b: 250 },
-  muted: { r: 154, g: 160, b: 186 },
-  surface: { r: 11, g: 13, b: 26 }, // fond sombre
+  paper: { r: 12, g: 12, b: 14 },
+  ink: { r: 245, g: 245, b: 245 },
+  muted: { r: 160, g: 160, b: 168 },
 };
 
 const toRgb = ({ r, g, b }) =>
   `${Math.round(r)} ${Math.round(g)} ${Math.round(b)}`;
 
-const toHex = ({ r, g, b }) =>
-  `#${[r, g, b]
-    .map((n) => Math.round(n).toString(16).padStart(2, "0"))
-    .join("")}`;
-
 const clearInline = (root) => {
   root.style.removeProperty("--paper");
   root.style.removeProperty("--ink");
   root.style.removeProperty("--muted");
-  root.style.removeProperty("--surface-cobalt");
 };
 
-/**
- * Morph en direct des tokens couleur (pas d'overlay).
- * On voit paper / ink / muted / surface-cobalt interpoler pendant le switch.
- */
 export const runThemeMorph = ({ nextDark, onApply, onDone }) => {
   const root = document.documentElement;
 
@@ -49,13 +37,11 @@ export const runThemeMorph = ({ nextDark, onApply, onDone }) => {
   const paper = { ...from.paper };
   const ink = { ...from.ink };
   const muted = { ...from.muted };
-  const surface = { ...from.surface };
 
   const paint = () => {
     root.style.setProperty("--paper", toRgb(paper));
     root.style.setProperty("--ink", toRgb(ink));
     root.style.setProperty("--muted", toRgb(muted));
-    root.style.setProperty("--surface-cobalt", toHex(surface));
   };
 
   paint();
@@ -72,7 +58,6 @@ export const runThemeMorph = ({ nextDark, onApply, onDone }) => {
   tl.to(paper, { ...to.paper, onUpdate: paint }, 0);
   tl.to(ink, { ...to.ink, onUpdate: paint }, 0);
   tl.to(muted, { ...to.muted, onUpdate: paint }, 0);
-  tl.to(surface, { ...to.surface, onUpdate: paint }, 0);
 
   return tl;
 };

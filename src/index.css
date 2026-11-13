@@ -6,20 +6,21 @@
 
 :root {
   --paper: 255 255 255;
-  --ink: 11 13 26;
-  --muted: 64 68 92;
+  --ink: 12 12 14;
+  --muted: 70 70 76;
+  --gutter: clamp(0.85rem, 2.2vw, 1.5rem);
 }
 
 .dark {
-  --paper: 11 13 26;
-  --ink: 242 243 250;
-  --muted: 154 160 186;
+  --paper: 12 12 14;
+  --ink: 245 245 245;
+  --muted: 160 160 168;
 }
 
 html {
   scroll-behavior: smooth;
   scrollbar-width: thin;
-  scrollbar-color: #1533d9 rgb(var(--paper));
+  scrollbar-color: rgb(var(--ink)) rgb(var(--paper));
 }
 
 body {
@@ -29,7 +30,6 @@ body {
   font-family: "Schibsted Grotesk", system-ui, sans-serif;
 }
 
-/* Reveal thème : les deux snapshots coexistent, clip circulaire sur le nouveau */
 ::view-transition-old(root),
 ::view-transition-new(root) {
   animation: none;
@@ -44,7 +44,6 @@ body {
   z-index: 2;
 }
 
-/* Flèches typographiques — nudge au hover du lien parent */
 .arrow-hint {
   display: inline-block;
   transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
@@ -80,13 +79,13 @@ h3 {
 }
 
 ::selection {
-  background-color: #1533d9;
-  color: #ffffff;
+  background-color: rgb(var(--ink));
+  color: rgb(var(--paper));
 }
 
 ::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
+  width: 8px;
+  height: 8px;
 }
 
 ::-webkit-scrollbar-track {
@@ -94,13 +93,8 @@ h3 {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #1533d9;
+  background: rgb(var(--ink));
   border: 2px solid rgb(var(--paper));
-  border-radius: 999px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #0f26a8;
 }
 
 ::-webkit-scrollbar-corner {
@@ -121,13 +115,22 @@ h3 {
   outline-color: #ffffff;
 }
 
-/* Surface cobalt : drench en clair, s'éteint en sombre */
+.on-ink :focus-visible,
+.on-ink:focus-visible {
+  outline-color: #ffffff;
+}
+
 .surface-cobalt {
   background-color: #1533d9;
 }
 
 .dark .surface-cobalt {
   background-color: rgb(var(--paper));
+}
+
+.surface-ink {
+  background-color: rgb(var(--ink));
+  color: rgb(var(--paper));
 }
 
 .duotone-cobalt {

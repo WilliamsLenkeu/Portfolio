@@ -1,7 +1,6 @@
-import React, { useLayoutEffect, useRef } from "react";
+import React from "react";
 import cvPDF from "../../Assets/curriculum_vitae_lenkeu_djache_prince_williams.pdf";
 import Arrow from "../../components/ui/Arrow";
-import { gsap, prefersReducedMotion } from "../../lib/gsap";
 import { useSplitText } from "../../lib/useSplitText";
 
 const footerLinks = [
@@ -11,97 +10,64 @@ const footerLinks = [
 
 const Contact = () => {
   const year = new Date().getFullYear();
-  const introRef = useSplitText({ stagger: 0.04, start: "top 80%" });
-  const emailRef = useSplitText({ stagger: 0.02, duration: 0.7, delay: 0.05, start: "top 80%" });
-  const noteRef = useSplitText({ stagger: 0.03, delay: 0.1, start: "top 80%" });
-  const footerRef = useRef(null);
-
-  useLayoutEffect(() => {
-    const footer = footerRef.current;
-    if (!footer || prefersReducedMotion()) return;
-
-    const tween = gsap.from(footer, {
-      autoAlpha: 0,
-      duration: 0.45,
-      ease: "power2.out",
-      scrollTrigger: {
-        trigger: footer,
-        start: "top 95%",
-        once: true,
-      },
-    });
-
-    return () => {
-      tween.scrollTrigger?.kill();
-      tween.kill();
-    };
-  }, []);
+  const emailRef = useSplitText({ stagger: 0.02, duration: 0.65, start: "top 85%" });
 
   return (
-    <section
-      id="contact"
-      className="on-cobalt surface-cobalt border-t border-transparent text-white dark:border-white/10"
-    >
-      <div className="mx-auto flex min-h-[80dvh] max-w-page flex-col px-6 pt-28">
-        <div className="flex flex-1 flex-col justify-center py-16">
-          <p ref={introRef} className="font-mono text-sm text-frost">
-            Un projet en tête ? Je réponds rapidement.
-          </p>
+    <section id="contact" className="on-ink surface-ink">
+      <div className="grid min-h-[60dvh] grid-cols-1 lg:grid-cols-[1.3fr_0.7fr]">
+        <div className="flex flex-col justify-end px-gutter pb-12 pt-20 lg:pb-16 lg:pt-28">
+          <p className="text-sm text-white/65">Pour une mission ou une collab.</p>
           <a
             ref={emailRef}
             href="mailto:williams25prince@gmail.com"
-            className="mt-6 inline-block break-words text-[clamp(1.35rem,5.5vw,4.25rem)] font-extrabold leading-tight tracking-tight text-white underline decoration-white/30 decoration-2 underline-offset-8 transition-colors duration-200 hover:decoration-white"
+            className="mt-4 break-all text-[clamp(1.4rem,5.5vw,3.75rem)] font-extrabold leading-[1.05] tracking-tight text-white underline decoration-white/25 decoration-2 underline-offset-8 hover:decoration-white"
           >
             williams25prince@gmail.com
           </a>
-          <a
-            href="tel:+237694903123"
-            className="mt-6 inline-block font-mono text-sm text-frost transition-colors hover:text-white"
-          >
+          <a href="tel:+237694903123" className="mt-5 text-sm text-white/65 hover:text-white">
             +237 6 94 90 31 23
           </a>
-          <p ref={noteRef} className="mt-10 text-base text-frost">
-            Disponible pour missions freelance et collaborations ponctuelles.{" "}
+        </div>
+
+        <div className="flex flex-col justify-end gap-6 border-t border-white/15 px-gutter py-10 lg:border-l lg:border-t-0 lg:py-16">
+          <p className="max-w-[28ch] text-sm leading-relaxed text-white/65">
+            Freelance et collaborations ponctuelles.{" "}
             <a
               href={cvPDF}
               download="williams-lenkeu-cv.pdf"
-              className="text-white underline underline-offset-4 transition-colors hover:text-frost"
+              className="text-white underline underline-offset-4 hover:opacity-70"
             >
-              télécharger le CV
+              CV
             </a>
-            .
           </p>
-        </div>
-
-        <div
-          ref={footerRef}
-          className="flex flex-col items-start justify-between gap-4 border-t border-white/25 py-6 dark:border-white/10 sm:flex-row sm:items-center"
-        >
-          <p className="font-mono text-xs text-frost">© {year}. Conçu et développé par Williams Lenkeu</p>
-          <div className="flex items-center gap-6">
+          <div className="flex flex-wrap gap-5">
             {footerLinks.map((link) => (
               <a
                 key={link.name}
                 href={link.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="font-mono text-xs text-frost transition-colors hover:text-white"
+                className="text-sm text-white/65 hover:text-white"
               >
-                {link.name} <Arrow dir="out" className="ml-1" />
+                {link.name} <Arrow dir="out" className="ml-0.5" />
               </a>
             ))}
-            <a
-              href="#top"
-              onClick={(e) => {
-                e.preventDefault();
-                window.scrollTo({ top: 0, behavior: "smooth" });
-              }}
-              className="font-mono text-xs text-frost transition-colors hover:text-white"
-            >
-              Haut de page <Arrow dir="up" className="ml-1" />
-            </a>
           </div>
         </div>
+      </div>
+
+      <div className="flex flex-wrap items-center justify-between gap-3 border-t border-white/15 px-gutter py-4 text-xs text-white/55">
+        <p>© {year} Williams Lenkeu</p>
+        <a
+          href="#top"
+          onClick={(e) => {
+            e.preventDefault();
+            window.scrollTo({ top: 0, behavior: "smooth" });
+          }}
+          className="hover:text-white"
+        >
+          Haut de page <Arrow dir="up" className="ml-0.5" />
+        </a>
       </div>
     </section>
   );

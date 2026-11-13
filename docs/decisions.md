@@ -1,5 +1,16 @@
 # Décisions
 
+## 2026-11-13 - Noir/blanc, portrait bust, projets égaux
+
+**Contexte :** le cobalt et la mise en avant d'un projet lisaient encore "template IA". Portrait trop croppé.
+
+**Choix :**
+- Palette monochrome (ink/paper). Plus de bleu.
+- Hero : fond paper, portrait rectangle ~36% avec `object-top` (buste visible).
+- Projets : liste égale, FarmEase en dernier.
+- Copy : tirets cadratins retirés, formulations plus plates.
+- Light par défaut. Gutters serrés. Impeccable 4.9 + hook Cursor.
+
 ## 2026-08-19 — Repositionnement Backend / DevOps / Data
 
 **Contexte :** le CV a changé de titre : « Développeur Backend & DevOps | Data Analysis ». Le pitch n’est plus fullstack.

@@ -17,7 +17,7 @@ const links = [
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [active, setActive] = useState("");
-  const [onCobalt, setOnCobalt] = useState(true);
+  const [onInk, setOnInk] = useState(false);
   const [dark, setDark] = useState(
     () => typeof document !== "undefined" && document.documentElement.classList.contains("dark")
   );
@@ -89,7 +89,7 @@ const Navbar = () => {
       duration: prefersReducedMotion() ? 0 : 0.4,
       ease: "power3.out",
     });
-  }, [active, onCobalt]);
+  }, [active, onInk]);
 
   useEffect(() => {
     const menu = menuRef.current;
@@ -103,14 +103,14 @@ const Navbar = () => {
   }, [isOpen]);
 
   useEffect(() => {
-    const hero = document.querySelector("#hero");
-    if (!hero) return;
+    const contact = document.querySelector("#contact");
+    if (!contact) return;
 
     const observer = new IntersectionObserver(
-      ([entry]) => setOnCobalt(entry.isIntersecting),
-      { rootMargin: "-64px 0px 0px 0px", threshold: 0 }
+      ([entry]) => setOnInk(entry.isIntersecting),
+      { rootMargin: "-56px 0px 0px 0px", threshold: 0 }
     );
-    observer.observe(hero);
+    observer.observe(contact);
     return () => observer.disconnect();
   }, []);
 
@@ -135,9 +135,9 @@ const Navbar = () => {
     document.querySelector(href)?.scrollIntoView({ behavior: "smooth" });
   };
 
-  const cvLinkClass = onCobalt
-    ? "font-mono text-xs tracking-wide text-frost transition-colors hover:text-white"
-    : "font-mono text-xs tracking-wide text-muted transition-colors hover:text-cobalt";
+  const cvLinkClass = onInk
+    ? "text-xs tracking-wide text-white/70 transition-colors hover:text-white"
+    : "text-xs tracking-wide text-muted transition-colors hover:text-ink";
 
   const themeButton = (
     <button
@@ -146,7 +146,7 @@ const Navbar = () => {
       disabled={themeBusy}
       aria-label={dark ? "Activer le thème clair" : "Activer le thème sombre"}
       className={`inline-flex h-8 w-8 items-center justify-center transition-colors duration-200 disabled:opacity-60 ${
-        onCobalt ? "text-frost hover:text-white" : "text-muted hover:text-ink"
+        onInk ? "text-white/70 hover:text-white" : "text-muted hover:text-ink"
       }`}
     >
       <span ref={iconRef} className="inline-flex">
@@ -158,27 +158,27 @@ const Navbar = () => {
   return (
     <header
       className={`fixed inset-x-0 top-0 z-50 transition-colors duration-300 ${
-        onCobalt ? "on-cobalt surface-cobalt" : "border-b border-ink/10 bg-paper/90 backdrop-blur-md"
+        onInk ? "on-ink surface-ink" : "border-b border-ink/10 bg-paper"
       }`}
     >
-      <nav className="mx-auto flex h-16 max-w-page items-center justify-between px-6">
+      <nav className="flex h-14 items-center justify-between px-gutter">
         <a
           href="#top"
           onClick={(e) => {
             e.preventDefault();
             handleClick("#top");
           }}
-          className={`font-mono text-base font-medium tracking-tight ${onCobalt ? "text-white" : "text-ink"}`}
+          className={`text-sm font-semibold tracking-tight ${onInk ? "text-white" : "text-ink"}`}
         >
-          WL<span className={onCobalt ? "text-frost" : "text-cobalt"}>·</span>
+          WL.
         </a>
 
-        <ul ref={listRef} className="relative hidden items-center gap-5 lg:gap-6 md:flex">
+        <ul ref={listRef} className="relative hidden items-center gap-4 lg:gap-5 md:flex">
           <span
             ref={ruleRef}
             aria-hidden="true"
             className={`pointer-events-none absolute bottom-0 left-0 h-0.5 w-0 opacity-0 ${
-              onCobalt ? "bg-white" : "bg-cobalt"
+              onInk ? "bg-white" : "bg-ink"
             }`}
           />
           {links.map((link) => (
@@ -191,10 +191,10 @@ const Navbar = () => {
                   handleClick(link.href);
                 }}
                 className={`relative block pb-1 text-sm transition-colors duration-200 ${
-                  onCobalt
+                  onInk
                     ? active === link.href
                       ? "text-white"
-                      : "text-frost hover:text-white"
+                      : "text-white/65 hover:text-white"
                     : active === link.href
                     ? "text-ink"
                     : "text-muted hover:text-ink"
@@ -206,7 +206,7 @@ const Navbar = () => {
           ))}
           <li
             className={`ml-1 flex items-center gap-4 border-l pl-5 ${
-              onCobalt ? "border-white/25" : "border-ink/15"
+              onInk ? "border-white/20" : "border-ink/15"
             }`}
           >
             <a href={cvPDF} download="williams-lenkeu-cv.pdf" className={cvLinkClass}>
@@ -225,7 +225,7 @@ const Navbar = () => {
             onClick={() => setIsOpen((v) => !v)}
             aria-label={isOpen ? "Fermer le menu" : "Ouvrir le menu"}
             aria-expanded={isOpen}
-            className={onCobalt ? "text-white" : "text-ink"}
+            className={onInk ? "text-white" : "text-ink"}
           >
             {isOpen ? <HiX size={22} /> : <HiMenuAlt3 size={22} />}
           </button>
@@ -234,20 +234,20 @@ const Navbar = () => {
 
       <div
         ref={progressRef}
-        className={`h-px w-full origin-left ${onCobalt ? "bg-white/60" : "bg-cobalt"}`}
+        className={`h-px w-full origin-left ${onInk ? "bg-white/50" : "bg-ink"}`}
       />
 
       <ul
         ref={menuRef}
         style={{ height: 0 }}
         className={`invisible overflow-hidden opacity-0 md:hidden ${
-          onCobalt ? "surface-cobalt border-t border-white/20 dark:border-white/10" : "border-t border-ink/10 bg-paper"
+          onInk ? "surface-ink border-t border-white/15" : "border-t border-ink/10 bg-paper"
         }`}
       >
         {links.map((link) => (
           <li
             key={link.name}
-            className={`border-b last:border-none ${onCobalt ? "border-white/10" : "border-ink/5"}`}
+            className={`border-b last:border-none ${onInk ? "border-white/10" : "border-ink/5"}`}
           >
             <a
               href={link.href}
@@ -256,23 +256,17 @@ const Navbar = () => {
                 handleClick(link.href);
               }}
               tabIndex={isOpen ? 0 : -1}
-              className={`block px-6 py-4 text-sm ${
-                onCobalt
+              className={`block px-gutter py-3.5 text-sm ${
+                onInk
                   ? active === link.href
                     ? "text-white"
-                    : "text-frost"
+                    : "text-white/65"
                   : active === link.href
-                  ? "text-cobalt"
+                  ? "text-ink"
                   : "text-muted"
               }`}
             >
               {link.name}
-              {active === link.href && (
-                <span
-                  aria-hidden="true"
-                  className={`ml-2 inline-block h-0.5 w-4 align-middle ${onCobalt ? "bg-white" : "bg-cobalt"}`}
-                />
-              )}
             </a>
           </li>
         ))}
@@ -281,7 +275,7 @@ const Navbar = () => {
             href={cvPDF}
             download="williams-lenkeu-cv.pdf"
             tabIndex={isOpen ? 0 : -1}
-            className={`block px-6 py-4 font-mono text-sm ${onCobalt ? "text-frost" : "text-muted"}`}
+            className={`block px-gutter py-3.5 text-sm ${onInk ? "text-white/65" : "text-muted"}`}
           >
             Télécharger le CV <Arrow dir="down" className="ml-1" />
           </a>

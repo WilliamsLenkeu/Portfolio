@@ -5,13 +5,13 @@
   <meta charset="utf-8" />
   <link rel="icon" type="image/webp" href="%PUBLIC_URL%/favicon.webp" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="theme-color" content="#1533d9" />
+  <meta name="theme-color" content="#0c0c0e" />
   <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
   <title>Williams Lenkeu | Portfolio</title>
   <script>
     (function () {
-      var t = localStorage.getItem("theme");
-      if (t === "dark" || (!t && window.matchMedia("(prefers-color-scheme: dark)").matches)) {
+      // Light by default; dark only if the user explicitly chose it.
+      if (localStorage.getItem("theme") === "dark") {
         document.documentElement.classList.add("dark");
       }
     })();
