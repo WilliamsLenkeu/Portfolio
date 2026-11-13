@@ -1,3 +1,8 @@
-# https://www.robotstxt.org/robotstxt.html
+# https://portfolio-williams-lenkeu.vercel.app/
 User-agent: *
-Disallow:
+Allow: /
+
+# Bloquer les chemins techniques éventuels
+Disallow: /static/js/*.map
+
+Sitemap: https://portfolio-williams-lenkeu.vercel.app/sitemap.xml

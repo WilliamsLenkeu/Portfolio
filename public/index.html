@@ -3,41 +3,123 @@
 
 <head>
   <meta charset="utf-8" />
-  <link rel="icon" type="image/webp" href="%PUBLIC_URL%/favicon.webp" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="theme-color" content="#0c0c0e" />
+
+  <title>Williams Lenkeu | Développeur Backend, DevOps &amp; Data</title>
+  <meta name="description" content="Portfolio de Williams Lenkeu, développeur backend, DevOps et data analysis à Yaoundé. APIs, infra et produits en production (FarmEase, Splenddd, Back2Mboa, Solutionneurs)." />
+  <meta name="author" content="Williams Lenkeu" />
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+  <meta name="googlebot" content="index, follow" />
+  <meta name="keywords" content="Williams Lenkeu, développeur backend, DevOps, data analysis, Yaoundé, Node.js, NestJS, Django, Spring Boot, Python, freelance Cameroun" />
+
+  <link rel="canonical" href="https://portfolio-williams-lenkeu.vercel.app/" />
+  <link rel="alternate" hreflang="fr" href="https://portfolio-williams-lenkeu.vercel.app/" />
+  <link rel="alternate" hreflang="x-default" href="https://portfolio-williams-lenkeu.vercel.app/" />
+
+  <meta name="theme-color" content="#0c0c0e" media="(prefers-color-scheme: dark)" />
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+  <meta name="color-scheme" content="light dark" />
+
+  <link rel="icon" type="image/webp" href="%PUBLIC_URL%/favicon.webp" />
+  <link rel="apple-touch-icon" href="%PUBLIC_URL%/apple-touch-icon.webp" />
   <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-  <title>Williams Lenkeu | Portfolio</title>
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="fr_FR" />
+  <meta property="og:site_name" content="Williams Lenkeu" />
+  <meta property="og:url" content="https://portfolio-williams-lenkeu.vercel.app/" />
+  <meta property="og:title" content="Williams Lenkeu | Développeur Backend, DevOps &amp; Data" />
+  <meta property="og:description" content="Développeur backend, DevOps et data analysis à Yaoundé. APIs, infra et produits en production." />
+  <meta property="og:image" content="https://portfolio-williams-lenkeu.vercel.app/og-image.webp" />
+  <meta property="og:image:alt" content="Portrait de Williams Lenkeu" />
+  <meta property="og:image:type" content="image/webp" />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Williams Lenkeu | Développeur Backend, DevOps &amp; Data" />
+  <meta name="twitter:description" content="Développeur backend, DevOps et data analysis à Yaoundé. APIs, infra et produits en production." />
+  <meta name="twitter:image" content="https://portfolio-williams-lenkeu.vercel.app/og-image.webp" />
+  <meta name="twitter:image:alt" content="Portrait de Williams Lenkeu" />
+
+  <!-- Schema.org Person + WebSite -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": "https://portfolio-williams-lenkeu.vercel.app/#website",
+        "url": "https://portfolio-williams-lenkeu.vercel.app/",
+        "name": "Williams Lenkeu",
+        "description": "Portfolio de Williams Lenkeu, développeur backend, DevOps et data analysis à Yaoundé.",
+        "inLanguage": "fr-FR",
+        "publisher": {
+          "@id": "https://portfolio-williams-lenkeu.vercel.app/#person"
+        }
+      },
+      {
+        "@type": "Person",
+        "@id": "https://portfolio-williams-lenkeu.vercel.app/#person",
+        "name": "Williams Lenkeu",
+        "url": "https://portfolio-williams-lenkeu.vercel.app/",
+        "image": "https://portfolio-williams-lenkeu.vercel.app/og-image.webp",
+        "jobTitle": "Développeur Backend, DevOps et Data Analysis",
+        "email": "mailto:williams25prince@gmail.com",
+        "telephone": "+237694903123",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Yaoundé",
+          "addressCountry": "CM"
+        },
+        "knowsAbout": [
+          "Backend development",
+          "DevOps",
+          "Data analysis",
+          "Node.js",
+          "NestJS",
+          "Django",
+          "Spring Boot",
+          "Python",
+          "React",
+          "Flutter"
+        ],
+        "sameAs": [
+          "https://github.com/WilliamsLenkeu",
+          "https://linkedin.com/in/williams-lenkeu"
+        ]
+      },
+      {
+        "@type": "ProfilePage",
+        "@id": "https://portfolio-williams-lenkeu.vercel.app/#profilepage",
+        "url": "https://portfolio-williams-lenkeu.vercel.app/",
+        "name": "Williams Lenkeu | Développeur Backend, DevOps & Data",
+        "isPartOf": {
+          "@id": "https://portfolio-williams-lenkeu.vercel.app/#website"
+        },
+        "about": {
+          "@id": "https://portfolio-williams-lenkeu.vercel.app/#person"
+        },
+        "mainEntity": {
+          "@id": "https://portfolio-williams-lenkeu.vercel.app/#person"
+        },
+        "inLanguage": "fr-FR"
+      }
+    ]
+  }
+  </script>
+
   <script>
     (function () {
-      // Light by default; dark only if the user explicitly chose it.
       if (localStorage.getItem("theme") === "dark") {
         document.documentElement.classList.add("dark");
       }
     })();
   </script>
-  <meta name="description" content="Portfolio de Williams Lenkeu, développeur backend, DevOps et data analysis à Yaoundé. Node, Django, Spring Boot, Python.">
-
-  <!-- Google / Search Engine Tags -->
-  <meta itemprop="name" content="Williams Lenkeu | Portfolio">
-  <meta itemprop="description" content="Portfolio de Williams Lenkeu, développeur backend, DevOps et data analysis à Yaoundé. Node, Django, Spring Boot, Python.">
-  <meta itemprop="image" content="%PUBLIC_URL%/favicon.webp">
-
-  <!-- Facebook Meta Tags -->
-  <meta property="og:type" content="website">
-  <meta property="og:title" content="Williams Lenkeu | Portfolio">
-  <meta property="og:description" content="Portfolio de Williams Lenkeu, développeur backend, DevOps et data analysis à Yaoundé. Node, Django, Spring Boot, Python.">
-  <meta property="og:image" content="%PUBLIC_URL%/favicon.webp">
-
-  <!-- Twitter Meta Tags -->
-  <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Williams Lenkeu | Portfolio">
-  <meta name="twitter:description" content="Portfolio de Williams Lenkeu, développeur backend, DevOps et data analysis à Yaoundé. Node, Django, Spring Boot, Python.">
-  <meta name="twitter:image" content="%PUBLIC_URL%/favicon.webp">
 </head>
 
 <body>
-  <noscript>You need to enable JavaScript to run this app.</noscript>
+  <noscript>Activez JavaScript pour afficher le portfolio de Williams Lenkeu.</noscript>
   <div id="root"></div>
 </body>
 

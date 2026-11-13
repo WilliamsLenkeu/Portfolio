@@ -1,5 +1,17 @@
 # Décisions
 
+## 2026-11-13 - SEO indexable
+
+**Contexte :** meta partielles, pas de canonical absolu, pas de sitemap, OG en favicon relative. Peu indexable.
+
+**Choix :**
+- `index.html` : title/description, robots index/follow, canonical, hreflang, OG/Twitter absolus, JSON-LD (WebSite + Person + ProfilePage).
+- `robots.txt` + `sitemap.xml` pointant sur `https://portfolio-williams-lenkeu.vercel.app/`.
+- `og-image.webp`, manifest à jour, headers Vercel (Referrer-Policy, nosniff).
+- Description GitHub du dépôt alignée.
+
+**À améliorer plus tard :** carte OG 1200×630 dédiée (l'avatar carré reste un interim).
+
 ## 2026-11-13 - Noir/blanc, portrait bust, projets égaux
 
 **Contexte :** le cobalt et la mise en avant d'un projet lisaient encore "template IA". Portrait trop croppé.
